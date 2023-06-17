@@ -9,7 +9,7 @@
             "program": "${workspaceFolder}/build/Debug/net7.0-windows/SpaceInvaders.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/SpaceInvaders",
-            "console": "internalConsole",
+            "console": "externalTerminal",
             "stopAtEntry": false
         },
         {
