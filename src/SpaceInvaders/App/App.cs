@@ -28,14 +28,35 @@ internal static class App
         Window.OnEvent += Event;
         Window.OnClosing += End;
 
-        Window.Setup();
-        Window.Loop();
-        Window.Close();
+        try
+        {
+            Log.Initializing(AppInfo.LogFileName);
+            Window.Setup();
+            Window.Loop();
+            Window.Close();
+        }
+        catch (Exception e)
+        {
+            var exceptionPrompt = "[EXCEPTIOM] An unexpected exception has occurred.";
+            var exceptionMessage = $"Message: {e.Message}";
+            var exceptionTrace = $"StackTrace: {e.StackTrace}";
+
+            Log.WriteFatal($"{exceptionPrompt}\n{exceptionMessage}\n{exceptionTrace}");
+
+            Console.WriteLine("Press key to exit...");
+            Console.ReadKey();
+        }
+        finally
+        {
+            Log.Finalizing();
+        }
     }
 
     private static void Init()
     {
-        Log.Initializing(AppInfo.LogFileName);
+        Log.WriteInfo("[START] initializing game data.");
+
+        throw new Exception("test");
     }
 
     private static void Event(SDL.SDL_Event e)
@@ -51,6 +72,6 @@ internal static class App
 
     private static void End()
     {
-        Log.Finalizing();
+        Log.WriteInfo("[START] Discard game data.");
     }
 }

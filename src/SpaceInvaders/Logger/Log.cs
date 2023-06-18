@@ -50,8 +50,8 @@ internal static class Log
             _ => true
         };
 
-        string nowTime = DateTime.Now.ToString("yyyy/mm/dd hh:mm:ss");
-        string writeMessage = $"[{level} {nowTime}] {message}";
+        string nowTime = DateTime.Now.ToString("yyyy-mm-dd hh:mm:ss");
+        string writeMessage = $"{level} {nowTime} {message}";
 
 #if DEBUG
         if (isWriteConsole)
