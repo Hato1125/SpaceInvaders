@@ -1,5 +1,5 @@
-﻿using SpaceInvaders.Graphics;
-using SpaceInvaders.Input;
+﻿using SpaceInvaders.Input;
+using SpaceInvaders.Logger;
 
 namespace SpaceInvaders.App;
 
@@ -33,16 +33,9 @@ internal static class App
         Window.Close();
     }
 
-    private static Font16x16? font;
-
     private static void Init()
     {
-        font = new(new(Window.RendererPtr, "Font16x16.png"))
-        {
-            Text = "aiueo kakikukeko 0123456789",
-            Scale = 2.0f,
-            TextSpace = -10,
-        };
+        Log.Initializing(AppInfo.LogFileName);
     }
 
     private static void Event(SDL.SDL_Event e)
@@ -54,11 +47,10 @@ internal static class App
     {
         Keyboard.Update();
         GameController.Update();
-
-        font?.Render(100, 100);
     }
 
     private static void End()
     {
+        Log.Finalizing();
     }
 }
