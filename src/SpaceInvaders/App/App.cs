@@ -1,4 +1,6 @@
-﻿namespace SpaceInvaders.App;
+﻿using SpaceInvaders.Input;
+
+namespace SpaceInvaders.App;
 
 internal static class App
 {
@@ -22,6 +24,7 @@ internal static class App
 
         Window.OnSetuped += Init;
         Window.OnLoop += Loop;
+        Window.OnEvent += Event;
         Window.OnClosing += End;
 
         Window.Setup();
@@ -33,10 +36,17 @@ internal static class App
     {
     }
 
+    private static void Event(SDL.SDL_Event e)
+    {
+        GameController.UpdateEvent(e);
+    }
+
     private static void Loop()
     {
+        Keyboard.Update();
+        GameController.Update();
     }
-    
+
     private static void End()
     {
     }

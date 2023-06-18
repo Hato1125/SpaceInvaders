@@ -64,11 +64,9 @@ internal class Window
                     case SDL.SDL_EventType.SDL_QUIT:
                         IsRunning = false;
                         break;
-
-                    default:
-                        OnEvent?.Invoke(e);
-                        break;
                 }
+
+                OnEvent?.Invoke(e);
             }
 
             SDL.SDL_RenderClear(RendererPtr);
@@ -85,7 +83,7 @@ internal class Window
 
     private void InitSDLComponent()
     {
-        if(SDL.SDL_Init(SDL.SDL_INIT_SENSOR) < 0)
+        if(SDL.SDL_Init(SDL.SDL_INIT_SENSOR | SDL.SDL_INIT_JOYSTICK) < 0)
         {
             SDL.SDL_DestroyWindow(WindowPtr);
             SDL.SDL_DestroyRenderer(RendererPtr);

@@ -6,7 +6,7 @@ namespace SpaceInvaders.Input;
 internal static class Keyboard
 {
     private static readonly byte[] keyState = new byte[512];
-    private static readonly byte[] keyValue = new byte[512];
+    private static readonly sbyte[] keyValue = new sbyte[512];
 
     public static void Update()
     {
@@ -16,9 +16,9 @@ internal static class Keyboard
         for(int i = 0; i < keyState.Length; i++)
         {
             if(keyState[i] == 1)
-                keyValue[i] = (byte)(IsPushing((SDL.SDL_Scancode)i) ? 2 : 1);
+                keyValue[i] = (sbyte)(IsPushing((SDL.SDL_Scancode)i) ? 2 : 1);
             else
-                keyValue[i] = (byte)(IsPushing((SDL.SDL_Scancode)i) ? 3 : 0);
+                keyValue[i] = (sbyte)(IsPushing((SDL.SDL_Scancode)i) ? -1 : 0);
         }
     }
 
@@ -29,5 +29,5 @@ internal static class Keyboard
         => keyValue[(int)keyCode] == 1;
 
     public static bool IsSeparate(SDL.SDL_Scancode keyCode)
-        => keyValue[(int)keyCode] == 3;
+        => keyValue[(int)keyCode] == -1;
 }
