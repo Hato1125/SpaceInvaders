@@ -1,9 +1,10 @@
-﻿namespace SpaceInvaders
+﻿namespace SpaceInvaders;
+
+internal class Program
 {
-    internal class Program
+    [STAThread]
+    private static void Main()
     {
-        static void Main(string[] args)
-        {
-        }
+        App.App.Running();
     }
 }
