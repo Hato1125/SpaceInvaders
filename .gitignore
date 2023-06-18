@@ -9,6 +9,7 @@ src/SpaceInvaders/obj/
 
 !launch.json
 !tasks.json
+!zlib1.dll
 !SDL2.dll
 !SDL2_image.dll
 !libpng16-16.dll
