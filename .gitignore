@@ -4,6 +4,7 @@ src/SpaceInvaders/obj/
 *.exe
 *.dll
 *.pdb
+*.log
 *.json
 *.toml
 
