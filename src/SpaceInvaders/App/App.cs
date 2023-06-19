@@ -1,4 +1,5 @@
-﻿using SpaceInvaders.Input;
+﻿using SpaceInvaders.Frame;
+using SpaceInvaders.Input;
 using SpaceInvaders.Logger;
 
 namespace SpaceInvaders.App;
@@ -55,8 +56,6 @@ internal static class App
     private static void Init()
     {
         Log.WriteInfo("[START] initializing game data.");
-
-        throw new Exception("test");
     }
 
     private static void Event(SDL.SDL_Event e)
@@ -68,10 +67,14 @@ internal static class App
     {
         Keyboard.Update();
         GameController.Update();
+
+        SceneManager.SceneUpdate();
     }
 
     private static void End()
     {
         Log.WriteInfo("[START] Discard game data.");
+
+        SceneManager.RemoveAllScene();
     }
 }
