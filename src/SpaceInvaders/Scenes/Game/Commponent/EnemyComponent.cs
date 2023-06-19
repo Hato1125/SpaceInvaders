@@ -37,6 +37,9 @@ internal class EnemyComponent
 
     public void Update()
     {
+        if (!IsDead)
+            return;
+
         collisionComponent.X = X;
         collisionComponent.Y = Y;
         collisionComponent.Width = animeSprites[AnimeIndex].Width * spriteScale;
