@@ -33,11 +33,13 @@ internal class EnemyComponent
         collisionComponent = new();
         animeSprites = sprites;
         spriteScale = scale;
+        IsDead = false;
+        IsCollision = true;
     }
 
     public void Update()
     {
-        if (!IsDead)
+        if (IsDead)
             return;
 
         collisionComponent.X = X;
@@ -48,7 +50,7 @@ internal class EnemyComponent
 
     public void Render()
     {
-        if (!IsDead)
+        if (IsDead)
             return;
 
         animeSprites[AnimeIndex].HorizontalScale = spriteScale;

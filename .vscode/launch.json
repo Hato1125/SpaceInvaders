@@ -6,11 +6,13 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/build/Debug/net7.0-windows/SpaceInvaders.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/SpaceInvaders",
+            "program": "dotnet",
+            "args": [
+                "${workspaceFolder}/build/Debug/net7.0-windows/SpaceInvaders.dll"
+            ],
+            "cwd": "${workspaceFolder}/build/Debug/net7.0-windows/",
             "console": "externalTerminal",
-            "stopAtEntry": false
+            "stopAtEntry": false,
         },
         {
             "name": ".NET Core Attach",

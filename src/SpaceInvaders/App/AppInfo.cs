@@ -7,5 +7,6 @@ internal static class AppInfo
 
     public static readonly string AppName = "SpaceInvaders";
     public static readonly string LogFileName = $"{AppContext.BaseDirectory}Log\\app.log";
-    public static readonly string ResourceDire = $"{AppContext.BaseDirectory}Resource\\";
+    public static readonly string TextureDire = $"{AppContext.BaseDirectory}Resource\\Texture\\";
+    public static readonly string SoundDire = $"{AppContext.BaseDirectory}Resource\\Sound\\";
 }

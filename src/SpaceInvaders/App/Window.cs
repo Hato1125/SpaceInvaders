@@ -12,9 +12,11 @@ internal class WindowInfo
 internal class Window
 {
     private readonly WindowInfo windowInfo;
+    private double lastTime;
 
     public nint WindowPtr { get; private set; }
     public nint RendererPtr { get; private set; }
+    public double DeltaTime { get; private set; }
 
     public event Action? OnSetuping = delegate { };
     public event Action? OnSetuped = delegate { };
@@ -55,9 +57,12 @@ internal class Window
 
     public void Loop()
     {
-        while(IsRunning)
+        while (IsRunning)
         {
-            while(SDL.SDL_PollEvent(out SDL.SDL_Event e) == 1)
+            DeltaTime = (SDL.SDL_GetTicks() - lastTime) / 1000.0;
+            lastTime = SDL.SDL_GetTicks();
+
+            while (SDL.SDL_PollEvent(out SDL.SDL_Event e) == 1)
             {
                 switch (e.type)
                 {
@@ -83,7 +88,7 @@ internal class Window
 
     private void InitSDLComponent()
     {
-        if(SDL.SDL_Init(SDL.SDL_INIT_SENSOR | SDL.SDL_INIT_JOYSTICK) < 0)
+        if (SDL.SDL_Init(SDL.SDL_INIT_SENSOR | SDL.SDL_INIT_JOYSTICK) < 0)
         {
             SDL.SDL_DestroyWindow(WindowPtr);
             SDL.SDL_DestroyRenderer(RendererPtr);
@@ -91,7 +96,7 @@ internal class Window
             throw new Exception("Failed to initialize SDL.");
         }
 
-        if(SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG) < 0)
+        if (SDL_image.IMG_Init(SDL_image.IMG_InitFlags.IMG_INIT_PNG) < 0)
         {
             SDL.SDL_DestroyWindow(WindowPtr);
             SDL.SDL_DestroyRenderer(RendererPtr);

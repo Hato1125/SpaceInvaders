@@ -16,7 +16,7 @@ internal static class SceneManager
         if (!scenes.ContainsKey(name))
             return;
 
-        if(CurrentSceneName == name)
+        if (CurrentSceneName == name)
         {
             scenes[CurrentSceneName].Finish();
             CurrentSceneName = string.Empty;
@@ -30,7 +30,9 @@ internal static class SceneManager
         if (!scenes.ContainsKey(name) || CurrentSceneName == name)
             return;
 
-        scenes[CurrentSceneName].Finish();
+        if (CurrentSceneName != string.Empty)
+            scenes[CurrentSceneName].Finish();
+
         CurrentSceneName = name;
         scenes[CurrentSceneName].Init();
     }
