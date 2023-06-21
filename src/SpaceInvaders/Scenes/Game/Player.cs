@@ -53,12 +53,12 @@ internal class Player : Scene
                 || Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_SPACE))
             {
                 if (BeamScreen.PlayerBeam == null
-                    && playerSprite != null 
+                    && playerSprite != null
                     && beamSprite != null)
                 {
                     var beginX = playerX + (playerSprite.ActualWidth - beamSprite.ActualWidth) / 2;
                     var beginY = playerY;
-                    var beam = new PlayerBeamComponent(beamSprite, beginX, beginY);
+                    new PlayerBeamComponent(beamSprite, beginX, beginY);
                 }
             }
         }

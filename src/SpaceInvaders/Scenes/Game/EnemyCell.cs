@@ -17,7 +17,7 @@ internal class EnemyCell : Scene
     private const int MOVE_NUM = 18;
     private const int MOVE_PIXEL = 10;
     private const float MOVE_START_INTERVAL = 1.0f;
-    private const float MOVE_DECELERATION = 0.2f;
+    private const float MOVE_DECELERATION = 0.1f;
 
     private readonly Sprite[,] enemySprites = new Sprite[ENEMY_KINDS, ENEMY_ANIME];
     private static readonly EnemyComponent[,] enemys = new EnemyComponent[ENEMY_ROW, ENEMY_COLUMN];
@@ -67,7 +67,7 @@ internal class EnemyCell : Scene
                 var positionX = (AppInfo.Width - ENEMY_INTERVAL * ENEMY_COLUMN) / 2 + j * ENEMY_INTERVAL;
                 var positionY = (AppInfo.Height / 100) * ENEMY_VERTICAL_PERCENT + ENEMY_INTERVAL * i;
 
-                enemys[i, j] = new(sprites, ENEMY_SCALE)
+                enemys[i, j] = new(sprites)
                 {
                     X = positionX,
                     Y = positionY,
@@ -94,13 +94,14 @@ internal class EnemyCell : Scene
             {
                 for (int j = 0; j < ENEMY_COLUMN; j++)
                 {
-                    enemys[i, j].Update();
                     enemys[i, j].AnimeIndex = animeIndex;
 
                     if (isDown)
                         enemys[i, j].Y += ENEMY_INTERVAL;
                     else
                         enemys[i, j].X += isLeftMove ? -MOVE_PIXEL : MOVE_PIXEL;
+
+                    enemys[i, j].Update();
                 }
             }
 
@@ -124,9 +125,7 @@ internal class EnemyCell : Scene
         for (int i = 0; i < ENEMY_ROW; i++)
         {
             for (int j = 0; j < ENEMY_COLUMN; j++)
-            {
                 enemys[i, j].Render();
-            }
         }
     }
 

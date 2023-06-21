@@ -25,7 +25,7 @@ internal class PlayerBeamComponent
     {
         beamY -= (float)(BEAM_SPEED * App.App.Window.DeltaTime);
 
-        if(beamY < -beamSprite.Height)
+        if (beamY < -beamSprite.Height)
             BeamScreen.PlayerBeam = null;
 
         collision.X = beamX;
@@ -34,17 +34,19 @@ internal class PlayerBeamComponent
         collision.Height = beamSprite.ActualHeight;
 
         var enemys = EnemyCell.GetEnemys();
-        for(int i = 0; i < enemys.GetLength(0); i++)
+        for (int i = 0; i < enemys.GetLength(0); i++)
         {
-            for(int j = 0; j < enemys.GetLength(1); j++)
+            for (int j = 0; j < enemys.GetLength(1); j++)
             {
                 var enemy = enemys[i, j];
                 var enemyCollision = enemy.CollisionComponent;
 
-                if(!enemy.IsDead && CollisionComponent.IsCollision(collision, enemyCollision))
+                if (!enemy.IsDead && CollisionComponent.IsCollision(collision, enemyCollision))
                 {
                     EnemyCell.GetEnemys()[i, j].IsDead = true;
                     BeamScreen.PlayerBeam = null;
+
+                    break;
                 }
             }
         }

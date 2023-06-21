@@ -6,7 +6,6 @@ internal class EnemyComponent
 {
     public readonly CollisionComponent CollisionComponent;
     private readonly Sprite[] animeSprites;
-    private readonly float spriteScale;
 
     public float X { get; set; }
     public float Y { get; set; }
@@ -28,11 +27,10 @@ internal class EnemyComponent
         }
     }
 
-    public EnemyComponent(Sprite[] sprites, float scale)
+    public EnemyComponent(Sprite[] sprites)
     {
         CollisionComponent = new();
         animeSprites = sprites;
-        spriteScale = scale;
         IsDead = false;
         IsCollision = true;
     }
@@ -53,8 +51,6 @@ internal class EnemyComponent
         if (IsDead)
             return;
 
-        animeSprites[AnimeIndex].HorizontalScale = spriteScale;
-        animeSprites[AnimeIndex].VerticalScale = spriteScale;
         animeSprites[AnimeIndex].Render(X, Y);
     }
 }
