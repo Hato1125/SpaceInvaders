@@ -51,8 +51,13 @@ internal static class GameController
         }
     }
 
-    public static IReadOnlyList<nint> GetRegisteredGameController()
-        => registController;
+    public static IReadOnlyList<nint>? GetRegisteredGameController()
+    {
+        if(!registController.Any())
+            return null;
+
+        return registController;
+    }
 
     public static bool IsPushing(nint gameController, SDL.SDL_GameControllerButton button)
         => gameControllers[gameController][GetGameControllerIndex(button)] > 0;

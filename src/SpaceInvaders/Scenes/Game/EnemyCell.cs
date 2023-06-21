@@ -14,13 +14,13 @@ internal class EnemyCell : Scene
     private const int ENEMY_VERTICAL_PERCENT = 20;
     private const float ENEMY_SCALE = 2.5f;
 
-    private const int MOVE_NUM = 26;
-    private const int MOVE_PIXEL = 6;
+    private const int MOVE_NUM = 18;
+    private const int MOVE_PIXEL = 10;
     private const float MOVE_START_INTERVAL = 1.0f;
-    private const float MOVE_DECELERATION = 0.125f;
+    private const float MOVE_DECELERATION = 0.25f;
 
     private readonly Sprite[,] enemySprites = new Sprite[ENEMY_KINDS, ENEMY_ANIME];
-    private readonly EnemyComponent[,] enemys = new EnemyComponent[ENEMY_ROW, ENEMY_COLUMN];
+    private static readonly EnemyComponent[,] enemys = new EnemyComponent[ENEMY_ROW, ENEMY_COLUMN];
 
     private int movedCount;
     private double moveCounter;
@@ -68,6 +68,7 @@ internal class EnemyCell : Scene
                     X = positionX,
                     Y = positionY,
                 };
+                enemys[i, j].Update();
             }
         }
     }
@@ -89,6 +90,7 @@ internal class EnemyCell : Scene
             {
                 for (int j = 0; j < ENEMY_COLUMN; j++)
                 {
+                    enemys[i, j].Update();
                     enemys[i, j].AnimeIndex = animeIndex;
 
                     if (isDown)
@@ -132,4 +134,7 @@ internal class EnemyCell : Scene
                 enemySprites[i, j].Dispose();
         }
     }
+
+    public static EnemyComponent[,] GetEnemys()
+        => enemys;
 }
