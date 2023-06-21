@@ -44,8 +44,8 @@ internal class EnemyComponent
 
         CollisionComponent.X = X;
         CollisionComponent.Y = Y;
-        CollisionComponent.Width = animeSprites[AnimeIndex].Width * spriteScale;
-        CollisionComponent.Height = animeSprites[AnimeIndex].Height * spriteScale;
+        CollisionComponent.Width = animeSprites[AnimeIndex].ActualWidth;
+        CollisionComponent.Height = animeSprites[AnimeIndex].ActualHeight;
     }
 
     public void Render()

@@ -9,8 +9,7 @@ internal static class App
 {
     private static readonly SDL.SDL_WindowFlags windowFlags = SDL.SDL_WindowFlags.SDL_WINDOW_SHOWN;
     private static readonly SDL.SDL_RendererFlags rendererFlags = SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED
-        | SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE
-        | SDL.SDL_RendererFlags.SDL_RENDERER_PRESENTVSYNC;
+        | SDL.SDL_RendererFlags.SDL_RENDERER_TARGETTEXTURE;
 
     public static readonly Window Window = new(
         AppInfo.AppName,
@@ -29,6 +28,7 @@ internal static class App
         Window.OnLoop += Loop;
         Window.OnEvent += Event;
         Window.OnClosing += End;
+        Window.MaxFramerate = AppInfo.MaxFPS;
 
         try
         {

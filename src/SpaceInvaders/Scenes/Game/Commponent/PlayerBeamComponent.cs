@@ -4,7 +4,7 @@ namespace SpaceInvaders.Scenes.Game;
 
 internal class PlayerBeamComponent
 {
-    private const float BEAM_SPEED = 600;
+    private const float BEAM_SPEED = 550;
     private readonly Sprite beamSprite;
     private readonly CollisionComponent collision;
 

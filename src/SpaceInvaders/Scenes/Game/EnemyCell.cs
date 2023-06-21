@@ -10,14 +10,14 @@ internal class EnemyCell : Scene
     private const int ENEMY_ANIME = 2;
     private const int ENEMY_ROW = 5;
     private const int ENEMY_COLUMN = 11;
-    private const int ENEMY_INTERVAL = 40;
+    private const int ENEMY_INTERVAL = 38;
     private const int ENEMY_VERTICAL_PERCENT = 20;
     private const float ENEMY_SCALE = 2.5f;
 
     private const int MOVE_NUM = 18;
     private const int MOVE_PIXEL = 10;
     private const float MOVE_START_INTERVAL = 1.0f;
-    private const float MOVE_DECELERATION = 0.25f;
+    private const float MOVE_DECELERATION = 0.2f;
 
     private readonly Sprite[,] enemySprites = new Sprite[ENEMY_KINDS, ENEMY_ANIME];
     private static readonly EnemyComponent[,] enemys = new EnemyComponent[ENEMY_ROW, ENEMY_COLUMN];
@@ -42,7 +42,11 @@ internal class EnemyCell : Scene
                 enemySprites[i, j] = new Sprite(
                     App.App.Window.RendererPtr,
                     $"{AppInfo.TextureDire}Game\\Enemy_{i}\\{j}.png"
-                );
+                )
+                {
+                    HorizontalScale = ENEMY_SCALE,
+                    VerticalScale = ENEMY_SCALE,
+                };
             }
         }
 

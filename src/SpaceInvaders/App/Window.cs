@@ -1,4 +1,6 @@
-﻿namespace SpaceInvaders.App;
+﻿using System.Diagnostics;
+
+namespace SpaceInvaders.App;
 
 internal class WindowInfo
 {
@@ -11,11 +13,12 @@ internal class WindowInfo
 
 internal class Window
 {
+    private readonly Stopwatch deltaWatch = new();
     private readonly WindowInfo windowInfo;
-    private double lastTime;
 
     public nint WindowPtr { get; private set; }
     public nint RendererPtr { get; private set; }
+    public double MaxFramerate { get; set; }
     public double DeltaTime { get; private set; }
 
     public event Action? OnSetuping = delegate { };
@@ -59,8 +62,8 @@ internal class Window
     {
         while (IsRunning)
         {
-            DeltaTime = (SDL.SDL_GetTicks() - lastTime) / 1000.0;
-            lastTime = SDL.SDL_GetTicks();
+            DeltaTime = deltaWatch.Elapsed.TotalSeconds;
+            deltaWatch.Restart();
 
             while (SDL.SDL_PollEvent(out SDL.SDL_Event e) == 1)
             {
@@ -77,6 +80,8 @@ internal class Window
             SDL.SDL_RenderClear(RendererPtr);
             OnLoop?.Invoke();
             SDL.SDL_RenderPresent(RendererPtr);
+
+            FramerateLimitter();
         }
     }
 
@@ -129,6 +134,20 @@ internal class Window
         {
             SDL.SDL_DestroyWindow(WindowPtr);
             throw new Exception("Failed to create Renderer.");
+        }
+    }
+
+    private void FramerateLimitter()
+    {
+        if (MaxFramerate <= 0)
+            return;
+
+        double ms = 1.0 / MaxFramerate;
+
+        if (deltaWatch.Elapsed.TotalSeconds < ms)
+        {
+            double sleepMs = (ms - deltaWatch.Elapsed.TotalSeconds) * 1000.0;
+            Task.Delay((int)sleepMs).Wait();
         }
     }
 }
