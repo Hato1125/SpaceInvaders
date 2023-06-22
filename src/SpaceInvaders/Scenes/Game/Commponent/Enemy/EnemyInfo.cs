@@ -1,6 +1,6 @@
 namespace SpaceInvaders.Scenes.Game;
 
-internal readonly struct EnemyInfo
+internal class EnemyInfo
 {
     public int Kinds { get; init; }
     public int AnimeNum { get; init; }

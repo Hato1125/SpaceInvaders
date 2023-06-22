@@ -17,7 +17,7 @@ internal class EnemyMove
     private double interval;
     private double intervalCounter;
 
-    public EnemyMove(Enemy[,] enemys, in EnemyInfo info)
+    public EnemyMove(Enemy[,] enemys, EnemyInfo info)
     {
         enemyInfo = info;
         enemyCell = enemys;
