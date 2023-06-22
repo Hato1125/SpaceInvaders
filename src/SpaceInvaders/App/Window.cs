@@ -147,7 +147,7 @@ internal class Window
         if (deltaWatch.Elapsed.TotalSeconds < ms)
         {
             double sleepMs = (ms - deltaWatch.Elapsed.TotalSeconds) * 1000.0;
-            Task.Delay((int)sleepMs).Wait();
+            SDL.SDL_Delay((uint)sleepMs);
         }
     }
 }
