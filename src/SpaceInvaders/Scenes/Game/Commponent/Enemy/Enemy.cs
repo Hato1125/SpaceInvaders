@@ -2,10 +2,10 @@
 
 namespace SpaceInvaders.Scenes.Game;
 
-internal class EnemyComponent
+internal class Enemy
 {
-    public readonly CollisionComponent CollisionComponent;
-    private readonly Sprite[] animeSprites;
+    public readonly CollisionComponent Collision;
+    public readonly Sprite[] AnimeSprites;
 
     public float X { get; set; }
     public float Y { get; set; }
@@ -18,7 +18,7 @@ internal class EnemyComponent
         get => animeIndex;
         set
         {
-            if (value > animeSprites.Length - 1)
+            if (value > AnimeSprites.Length - 1)
                 animeIndex = 0;
             else if (value < 0)
                 animeIndex = 0;
@@ -27,10 +27,10 @@ internal class EnemyComponent
         }
     }
 
-    public EnemyComponent(Sprite[] sprites)
+    public Enemy(Sprite[] sprites)
     {
-        CollisionComponent = new();
-        animeSprites = sprites;
+        Collision = new();
+        AnimeSprites = sprites;
         IsDead = false;
         IsCollision = true;
     }
@@ -40,10 +40,10 @@ internal class EnemyComponent
         if (IsDead)
             return;
 
-        CollisionComponent.X = X;
-        CollisionComponent.Y = Y;
-        CollisionComponent.Width = animeSprites[AnimeIndex].ActualWidth;
-        CollisionComponent.Height = animeSprites[AnimeIndex].ActualHeight;
+        Collision.X = X;
+        Collision.Y = Y;
+        Collision.Width = AnimeSprites[AnimeIndex].ActualWidth;
+        Collision.Height = AnimeSprites[AnimeIndex].ActualHeight;
     }
 
     public void Render()
@@ -51,6 +51,6 @@ internal class EnemyComponent
         if (IsDead)
             return;
 
-        animeSprites[AnimeIndex].Render(X, Y);
+        AnimeSprites[AnimeIndex].Render(X, Y);
     }
 }

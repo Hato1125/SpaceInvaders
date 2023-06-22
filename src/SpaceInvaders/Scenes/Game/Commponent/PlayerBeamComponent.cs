@@ -32,24 +32,6 @@ internal class PlayerBeamComponent
         collision.Y = beamY;
         collision.Width = beamSprite.ActualWidth;
         collision.Height = beamSprite.ActualHeight;
-
-        var enemys = EnemyCell.GetEnemys();
-        for (int i = 0; i < enemys.GetLength(0); i++)
-        {
-            for (int j = 0; j < enemys.GetLength(1); j++)
-            {
-                var enemy = enemys[i, j];
-                var enemyCollision = enemy.CollisionComponent;
-
-                if (!enemy.IsDead && CollisionComponent.IsCollision(collision, enemyCollision))
-                {
-                    EnemyCell.GetEnemys()[i, j].IsDead = true;
-                    BeamScreen.PlayerBeam = null;
-
-                    break;
-                }
-            }
-        }
     }
 
     public void Render()
