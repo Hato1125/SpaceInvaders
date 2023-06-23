@@ -38,6 +38,9 @@ internal class EnemyAttack
 
     private void Attack()
     {
+        if (!attackEnemys.Any())
+            return;
+
         attackIntervalCounter += App.App.Window.DeltaTime;
         if (attackIntervalCounter > attackInterval && beamSprite != null)
         {
@@ -63,13 +66,10 @@ internal class EnemyAttack
         {
             for (int j = enemyInfo.RowNum - 1; j > 0; j--)
             {
-                if (j != 0)
+                if (j != 0 && !enemyCell[j, i].IsDead)
                 {
-                    if (!enemyCell[j, i].IsDead)
-                    {
-                        attackEnemys.Add(enemyCell[j, i]);
-                        break;
-                    }
+                    attackEnemys.Add(enemyCell[j, i]);
+                    break;
                 }
             }
         }
