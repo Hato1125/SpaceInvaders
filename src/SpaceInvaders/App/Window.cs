@@ -87,8 +87,10 @@ internal class Window
 
     public void Close()
     {
+        OnClosing?.Invoke();
         SDL.SDL_DestroyWindow(WindowPtr);
         SDL.SDL_DestroyRenderer(RendererPtr);
+        OnClosed?.Invoke();
     }
 
     private void InitSDLComponent()
