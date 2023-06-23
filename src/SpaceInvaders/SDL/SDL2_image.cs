@@ -74,9 +74,7 @@ namespace SDL2
 		{
 			SDL.SDL_version result;
 			IntPtr result_ptr = INTERNAL_IMG_Linked_Version();
-			result = SDL.PtrToStructure<SDL.SDL_version>(
-				result_ptr
-			);
+			result = SDL.PtrToStructure<SDL.SDL_version>(result_ptr);
 			return result;
 		}
 

@@ -47,7 +47,7 @@ namespace SDL2
         #region Marshaling
 
 #if NET6_0_OR_GREATER
-        internal static T PtrToStructure<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>(IntPtr ptr)
+        internal static T? PtrToStructure<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.NonPublicConstructors)] T>(IntPtr ptr)
         {
             return Marshal.PtrToStructure<T>(ptr);
         }
@@ -1178,25 +1178,16 @@ namespace SDL2
             out IntPtr userdata
         );
         public static void SDL_LogGetOutputFunction(
-            out SDL_LogOutputFunction callback,
+            out SDL_LogOutputFunction? callback,
             out IntPtr userdata
         )
         {
-            IntPtr result = IntPtr.Zero;
-            SDL_LogGetOutputFunction(
-                out result,
-                out userdata
-            );
+            SDL_LogGetOutputFunction(out nint result, out userdata);
+
             if (result != IntPtr.Zero)
-            {
-                callback = (SDL_LogOutputFunction)GetDelegateForFunctionPointer<SDL_LogOutputFunction>(
-                    result
-                );
-            }
+                callback = GetDelegateForFunctionPointer<SDL_LogOutputFunction>(result);
             else
-            {
-                callback = null;
-            }
+                callback = default;
         }
 
         /* userdata refers to a void* */
@@ -4414,9 +4405,7 @@ namespace SDL2
         public static bool SDL_MUSTLOCK(IntPtr surface)
         {
             SDL_Surface sur;
-            sur = PtrToStructure<SDL_Surface>(
-                surface
-            );
+            sur = PtrToStructure<SDL_Surface>(surface);
             return (sur.flags & SDL_RLEACCEL) != 0;
         }
 
@@ -5568,22 +5557,17 @@ namespace SDL2
             out IntPtr userdata
         );
         public static SDL_bool SDL_GetEventFilter(
-            out SDL_EventFilter filter,
+            out SDL_EventFilter? filter,
             out IntPtr userdata
         )
         {
-            IntPtr result = IntPtr.Zero;
-            SDL_bool retval = SDL_GetEventFilter(out result, out userdata);
+            SDL_bool retval = SDL_GetEventFilter(out nint result, out userdata);
+
             if (result != IntPtr.Zero)
-            {
-                filter = (SDL_EventFilter)GetDelegateForFunctionPointer<SDL_EventFilter>(
-                    result
-                );
-            }
+                filter = GetDelegateForFunctionPointer<SDL_EventFilter>(result);
             else
-            {
-                filter = null;
-            }
+                filter = default;
+
             return retval;
         }
 
