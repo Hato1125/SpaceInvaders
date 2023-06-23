@@ -28,7 +28,7 @@ internal class PlayerAttack
 
         var controllers = GameController.GetRegisteredGameController();
 
-        if(IsAttackPush(controllers) && BeamScreen.PlayerBeam == null)
+        if(IsAttackPush(controllers) && GameScene.BeamScreen.AnyPlayerBeam())
         {
             var beginX = player.X + (player.Collision.Width - beamSprite.ActualWidth) / 2;
             var beginY = player.Y;

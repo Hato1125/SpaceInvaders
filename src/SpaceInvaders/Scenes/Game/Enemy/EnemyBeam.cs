@@ -20,7 +20,7 @@ internal class EnemyBeam
         Collision = new();
         beamSprite = beam;
 
-        BeamScreen.EnemyBeam.Add(this);
+        GameScene.BeamScreen.PushBeam(this);
     }
 
     public void Update()
@@ -33,10 +33,10 @@ internal class EnemyBeam
         Collision.Height = beamSprite.ActualHeight;
 
         if (y >= AppInfo.Height + beamSprite.ActualHeight)
-            BeamScreen.EnemyBeam.Remove(this);
+            GameScene.BeamScreen.RemoveBeam(this);
 
         if (CollisionComponent.IsCollision(Collision, GameScene.Player.GetCollision()))
-            BeamScreen.EnemyBeam.Remove(this);
+            GameScene.BeamScreen.RemoveBeam(this);
     }
 
     public void Render()

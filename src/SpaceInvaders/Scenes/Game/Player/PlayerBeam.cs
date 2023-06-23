@@ -19,7 +19,7 @@ internal class PlayerBeam
         Collision = new();
         beamSprite = beam;
 
-        BeamScreen.PlayerBeam = this;
+        GameScene.BeamScreen.PushBeam(this);
     }
 
     public void Update()
@@ -32,7 +32,7 @@ internal class PlayerBeam
         Collision.Height = beamSprite.ActualHeight;
 
         if (y < -beamSprite.ActualHeight)
-            BeamScreen.PlayerBeam = null;
+            GameScene.BeamScreen.RemoveBeam();
 
         var enemyCell = GameScene.Enemy.GetEnemyCell();
         for (int i = 0; i < enemyCell.GetLength(0); i++)
@@ -43,7 +43,7 @@ internal class PlayerBeam
                     && CollisionComponent.IsCollision(enemyCell[i, j].Collision, Collision))
                 {
                     enemyCell[i, j].IsDead = true;
-                    BeamScreen.PlayerBeam = null;
+                    GameScene.BeamScreen.RemoveBeam();
                 }
             }
         }
