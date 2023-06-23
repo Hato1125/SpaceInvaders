@@ -24,7 +24,10 @@ internal class EnemyAttack
     {
         beamSprite = beam;
         attackIntervalCounter = 0;
-        attackInterval = App.App.Random.Next(1, 3);
+        attackInterval = App.App.Random.Next(
+            enemyInfo.AttackIntervalMin,
+            enemyInfo.AttackIntervalMax + 1
+        );
     }
 
     public void Update()
@@ -39,14 +42,17 @@ internal class EnemyAttack
         if (attackIntervalCounter > attackInterval && beamSprite != null)
         {
             attackIntervalCounter = 0;
-            attackInterval = App.App.Random.Next(1, 2);
+            attackInterval = App.App.Random.Next(
+            enemyInfo.AttackIntervalMin,
+            enemyInfo.AttackIntervalMax + 1
+        );
 
             var attackIndex = App.App.Random.Next(0, attackEnemys.Count);
             var attackEnemy = attackEnemys[attackIndex];
             var beginX = attackEnemy.X + (attackEnemy.Collision.Width - beamSprite.ActualWidth) / 2;
             var beginY = attackEnemy.Y;
 
-            new EnemyBeam(beginX, beginY, beamSprite);
+            new EnemyBeam(beginX, beginY, enemyInfo.BeamSpeed, beamSprite);
         }
     }
 

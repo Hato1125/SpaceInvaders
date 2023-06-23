@@ -33,7 +33,7 @@ internal class PlayerAttack
             var beginX = player.X + (player.Collision.Width - beamSprite.ActualWidth) / 2;
             var beginY = player.Y;
 
-            new PlayerBeam(beginX, beginY, beamSprite);
+            new PlayerBeam(beginX, beginY, playerInfo.BeamSpeed, beamSprite);
         }
     }
 

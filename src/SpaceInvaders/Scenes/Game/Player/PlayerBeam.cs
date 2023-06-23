@@ -9,11 +9,13 @@ internal class PlayerBeam
 
     private float x;
     private float y;
+    private float beamSpeed;
 
-    public PlayerBeam(float beginX, float beginY, Sprite beam)
+    public PlayerBeam(float beginX, float beginY, float speed, Sprite beam)
     {
         x = beginX;
         y = beginY;
+        beamSpeed = speed;
         Collision = new();
         beamSprite = beam;
 
@@ -22,7 +24,7 @@ internal class PlayerBeam
 
     public void Update()
     {
-        y -= (float)(600 * App.App.Window.DeltaTime);
+        y -= (float)(beamSpeed * App.App.Window.DeltaTime);
 
         Collision.X = x;
         Collision.Y = y;
