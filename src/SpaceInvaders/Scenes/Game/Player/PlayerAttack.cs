@@ -39,7 +39,7 @@ internal class PlayerAttack
 
     private bool IsAttackPush(IReadOnlyList<nint>? controllers)
     {
-        if (Keyboard.IsPushing(SDL.SDL_Scancode.SDL_SCANCODE_SPACE))
+        if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_SPACE))
         {
             return true;
         }
@@ -48,7 +48,7 @@ internal class PlayerAttack
             if (controllers == null)
                 return false;
 
-            if (GameController.IsPushing(
+            if (GameController.IsPushed(
                 controllers[0],
                 SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_A))
                 return true;
