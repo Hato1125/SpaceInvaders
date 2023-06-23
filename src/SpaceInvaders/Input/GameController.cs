@@ -1,4 +1,6 @@
-﻿namespace SpaceInvaders.Input;
+﻿using SpaceInvaders.Logger;
+
+namespace SpaceInvaders.Input;
 
 internal static class GameController
 {
@@ -11,20 +13,12 @@ internal static class GameController
     {
         switch (e.type)
         {
-            case SDL.SDL_EventType.SDL_JOYDEVICEADDED:
-                var addController = SDL.SDL_GameControllerOpen(e.cdevice.which);
-
-                registController.Add(addController);
-                gameControllers.Add(addController, new sbyte[GAMECONTROLLER_BUTTON_NUM]);
+            case SDL.SDL_EventType.SDL_CONTROLLERDEVICEADDED:
+                AddController(e);
                 break;
 
-            case SDL.SDL_EventType.SDL_JOYDEVICEREMOVED:
-                var removeController = registController[e.cdevice.which];
-
-                gameControllers.Remove(removeController);
-                registController.Remove(removeController);
-
-                SDL.SDL_GameControllerClose(e.cdevice.which);
+            case SDL.SDL_EventType.SDL_CONTROLLERDEVICEREMOVED:
+                RemoveController(e);
                 break;
 
             case SDL.SDL_EventType.SDL_QUIT:
@@ -53,20 +47,23 @@ internal static class GameController
 
     public static IReadOnlyList<nint>? GetRegisteredGameController()
     {
-        if(!registController.Any())
+        if (!registController.Any())
             return null;
 
         return registController;
     }
 
     public static bool IsPushing(nint gameController, SDL.SDL_GameControllerButton button)
-        => gameControllers[gameController][GetGameControllerIndex(button)] > 0;
+        => gameControllers.ContainsKey(gameController)
+            && gameControllers[gameController][GetGameControllerIndex(button)] > 0;
 
     public static bool IsPushed(nint gameController, SDL.SDL_GameControllerButton button)
-        => gameControllers[gameController][GetGameControllerIndex(button)] == 1;
+        => gameControllers.ContainsKey(gameController)
+            && gameControllers[gameController][GetGameControllerIndex(button)] == 1;
 
     public static bool IsSeparate(nint gameController, SDL.SDL_GameControllerButton button)
-        => gameControllers[gameController][GetGameControllerIndex(button)] == -1;
+        => gameControllers.ContainsKey(gameController)
+            && gameControllers[gameController][GetGameControllerIndex(button)] == -1;
 
     private static int GetGameControllerIndex(SDL.SDL_GameControllerButton button)
         => (int)button;
@@ -75,4 +72,33 @@ internal static class GameController
         => index >= -1 && index <= GAMECONTROLLER_BUTTON_NUM
             ? (SDL.SDL_GameControllerButton)index
             : SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_INVALID;
+
+    private static void AddController(in SDL.SDL_Event e)
+    {
+        var addController = SDL.SDL_GameControllerOpen(e.cdevice.which);
+        if (addController == nint.Zero)
+            return;
+
+        var contName = SDL.SDL_GameControllerName(addController);
+        var name = string.IsNullOrWhiteSpace(contName) ? "Null" : contName;
+        Log.WriteInfo($"[ADDCONTROLLER] Info\n\tName: {name}\n\tHandle: {addController}");
+
+        registController.Add(addController);
+        gameControllers.Add(addController, new sbyte[GAMECONTROLLER_BUTTON_NUM]);
+    }
+
+    private static void RemoveController(in SDL.SDL_Event e)
+    {
+        var instanceID = SDL.SDL_GameControllerFromInstanceID(e.cdevice.which);
+        var removeIndex = registController.IndexOf(instanceID);
+
+        var contName = SDL.SDL_GameControllerName(instanceID);
+        var name = string.IsNullOrWhiteSpace(contName) ? "Null" : contName;
+        Log.WriteInfo($"[REMOVECONTROLLER] Info\n\tName: {name}\n\tHandle: {instanceID}");
+
+        gameControllers.Remove(instanceID);
+        registController.Remove(removeIndex);
+
+        SDL.SDL_GameControllerClose(instanceID);
+    }
 }

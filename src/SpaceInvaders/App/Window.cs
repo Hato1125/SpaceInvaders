@@ -95,7 +95,7 @@ internal class Window
 
     private void InitSDLComponent()
     {
-        if (SDL.SDL_Init(SDL.SDL_INIT_SENSOR | SDL.SDL_INIT_JOYSTICK) < 0)
+        if (SDL.SDL_Init(SDL.SDL_INIT_SENSOR | SDL.SDL_INIT_GAMECONTROLLER) < 0)
         {
             SDL.SDL_DestroyWindow(WindowPtr);
             SDL.SDL_DestroyRenderer(RendererPtr);
