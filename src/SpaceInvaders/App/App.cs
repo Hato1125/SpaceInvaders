@@ -19,6 +19,8 @@ internal static class App
         rendererFlags
     );
 
+    public static readonly Random Random = new(4545);
+
     public static void Running()
     {
         if (Window.IsRunning)

@@ -10,6 +10,7 @@ internal class EnemyInfo
     public int EnemyMovePixel { get; init; }
     public int EnemyInterval { get; init; }
     public float EnemyScale { get; init; }
+    public float EnemyBeamScale { get; init; }
     public float BeginMoveInterbal { get; init; }
     public float DecreaseMoveInterbal { get; init; }
 }

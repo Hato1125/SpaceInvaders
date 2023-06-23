@@ -7,10 +7,13 @@ namespace SpaceInvaders.Scenes.Game;
 internal class EnemyController : Scene
 {
     private readonly EnemyMove move;
+    private readonly EnemyAttack attack;
 
     private readonly EnemyInfo enemyInfo;
     private readonly Enemy[,] enemyCell;
     private readonly Sprite[,] enemySprites;
+
+    private Sprite? beamSprite;
 
     public EnemyController()
     {
@@ -24,6 +27,7 @@ internal class EnemyController : Scene
             EnemyMovePixel = 8,
             EnemyInterval = 40,
             EnemyScale = 2.5f,
+            EnemyBeamScale = 2.0f,
             BeginMoveInterbal = 1.0f,
             DecreaseMoveInterbal = 0.085f,
         };
@@ -32,6 +36,7 @@ internal class EnemyController : Scene
         enemySprites = new Sprite[enemyInfo.Kinds, enemyInfo.AnimeNum];
 
         move = new(enemyCell, enemyInfo);
+        attack = new(enemyCell, enemyInfo);
     }
 
     public override void Init()
@@ -57,12 +62,20 @@ internal class EnemyController : Scene
                 enemyCell[i, j] = new(GetEnemySprites(i));
         }
 
+        beamSprite = new(App.App.Window.RendererPtr, $"{AppInfo.GameTextureDire}EnemyBeam.png")
+        {
+            HorizontalScale = enemyInfo.EnemyBeamScale,
+            VerticalScale = enemyInfo.EnemyBeamScale,
+        };
+
         move.Init();
+        attack.Init(beamSprite);
     }
 
     public override void Update()
     {
         move.Update();
+        attack.Update();
 
         for (int i = 0; i < enemyInfo.RowNum; i++)
         {

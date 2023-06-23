@@ -31,6 +31,15 @@ internal class EnemyMove
     {
         interval = enemyInfo.BeginMoveInterbal;
         moveCount = enemyInfo.EnemyMoveNum / 2;
+
+        for (int i = 0; i < enemyInfo.RowNum; i++)
+        {
+            for (int j = 0; j < enemyInfo.ColumnNum; j++)
+            {
+                enemyCell[i, j].X = j * enemyInfo.EnemyInterval + beginX + moveX;
+                enemyCell[i, j].Y = i * enemyInfo.EnemyInterval + beginY + moveY;
+            }
+        }
     }
 
     public void Update()
@@ -63,14 +72,15 @@ internal class EnemyMove
                     moveCount++;
                 }
             }
-        }
 
-        for (int i = 0; i < enemyInfo.RowNum; i++)
-        {
-            for (int j = 0; j < enemyInfo.ColumnNum; j++)
+            for (int i = 0; i < enemyInfo.RowNum; i++)
             {
-                enemyCell[i, j].X = j * enemyInfo.EnemyInterval + beginX + moveX;
-                enemyCell[i, j].Y = i * enemyInfo.EnemyInterval + beginY + moveY;
+                for (int j = 0; j < enemyInfo.ColumnNum; j++)
+                {
+                    enemyCell[i, j].AnimeIndex++;
+                    enemyCell[i, j].X = j * enemyInfo.EnemyInterval + beginX + moveX;
+                    enemyCell[i, j].Y = i * enemyInfo.EnemyInterval + beginY + moveY;
+                }
             }
         }
     }

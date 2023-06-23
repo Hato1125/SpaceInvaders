@@ -9,13 +9,20 @@ internal class Player : Scene
 {
     private const float PLAYER_SPEED = 200f;
     private const float PLAYER_SCALE = 5f;
-    private const float PLAYER_VERTICAL_PERCENT = 80f;
+    private const float PLAYER_VERTICAL_PERCENT = 85f;
     private const float PLAYER_BEAM_SCALE = 2f;
+
+    public readonly CollisionComponent Collision;
 
     private Sprite? playerSprite;
     private Sprite? beamSprite;
     private float playerX;
     private float playerY;
+
+    public Player()
+    {
+        Collision = new();
+    }
 
     public override void Init()
     {
@@ -37,8 +44,15 @@ internal class Player : Scene
 
     public override void Update()
     {
-        var controller = GameController.GetRegisteredGameController();
+        if(playerSprite == null)
+            return;
 
+        Collision.X = playerX;
+        Collision.Y = playerY;
+        Collision.Width = playerSprite.ActualWidth;
+        Collision.Height = playerSprite.ActualHeight;
+
+        var controller = GameController.GetRegisteredGameController();
         if (controller != null)
         {
             if (GameController.IsPushing(controller[0], SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_DPAD_LEFT)
