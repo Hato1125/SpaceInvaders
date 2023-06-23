@@ -7,7 +7,7 @@ internal class EnemyAttack
 {
     private readonly EnemyInfo enemyInfo;
     private readonly Enemy[,] enemyCell;
-    private Enemy?[] attackEnemys;
+    private readonly Enemy?[] attackEnemys;
 
     private Sprite? beamSprite;
 
