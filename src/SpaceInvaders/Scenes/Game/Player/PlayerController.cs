@@ -62,6 +62,7 @@ internal class PlayerController : Scene
     public override void Finish()
     {
         playerSprite?.Dispose();
+        beamSprite?.Dispose();
     }
 
     public CollisionComponent GetCollision()

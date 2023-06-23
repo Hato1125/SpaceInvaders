@@ -103,6 +103,8 @@ internal class EnemyController : Scene
             for (int j = 0; j < enemyInfo.AnimeNum; j++)
                 enemySprites[i, j].Dispose();
         }
+
+        beamSprite?.Dispose();
     }
 
     public Enemy[,] GetEnemyCell()
