@@ -69,9 +69,9 @@ internal class EnemyAttack
         ClearEnemys();
         for (int i = 0; i < enemyInfo.ColumnNum; i++)
         {
-            for (int j = enemyInfo.RowNum - 1; j > 0; j--)
+            for (int j = enemyInfo.RowNum - 1; j >= 0; j--)
             {
-                if (j != 0 && !enemyCell[j, i].IsDead)
+                if (!enemyCell[j, i].IsDead)
                 {
                     attackEnemys[attackEnemyNum] = enemyCell[j, i];
                     attackEnemyNum++;
