@@ -39,7 +39,7 @@ internal class EnemyAttack
         if (attackIntervalCounter > attackInterval && beamSprite != null)
         {
             attackIntervalCounter = 0;
-            attackInterval = App.App.Random.Next(1, 3);
+            attackInterval = App.App.Random.Next(1, 2);
 
             var attackIndex = App.App.Random.Next(0, attackEnemys.Count);
             var attackEnemy = attackEnemys[attackIndex];

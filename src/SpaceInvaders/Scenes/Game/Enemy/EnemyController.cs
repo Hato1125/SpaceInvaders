@@ -102,6 +102,9 @@ internal class EnemyController : Scene
         }
     }
 
+    public Enemy[,] GetEnemyCell()
+        => enemyCell;
+
     private Sprite[] GetEnemySprites(int index) => index switch
     {
         0 => new Sprite[] { enemySprites[0, 0], enemySprites[0, 1] },

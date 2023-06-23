@@ -4,7 +4,7 @@ namespace SpaceInvaders.Scenes.Game;
 
 internal class BeamScreen : Scene
 {
-    public static PlayerBeamComponent? PlayerBeam;
+    public static PlayerBeam? PlayerBeam;
     public static HashSet<EnemyBeam> EnemyBeam = new();
 
     public override void Update()

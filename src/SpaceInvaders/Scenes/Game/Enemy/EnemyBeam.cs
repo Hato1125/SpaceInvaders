@@ -1,3 +1,4 @@
+using SpaceInvaders.App;
 using SpaceInvaders.Graphics;
 
 namespace SpaceInvaders.Scenes.Game;
@@ -29,7 +30,10 @@ internal class EnemyBeam
         Collision.Width = beamSprite.ActualWidth;
         Collision.Height = beamSprite.ActualHeight;
 
-        if(CollisionComponent.IsCollision(Collision, GameScene.Player.Collision))
+        if (y >= AppInfo.Height + beamSprite.ActualHeight)
+            BeamScreen.EnemyBeam.Remove(this);
+
+        if (CollisionComponent.IsCollision(Collision, GameScene.Player.GetCollision()))
             BeamScreen.EnemyBeam.Remove(this);
     }
 
