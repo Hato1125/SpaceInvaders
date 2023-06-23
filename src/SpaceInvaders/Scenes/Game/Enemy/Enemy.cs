@@ -10,7 +10,6 @@ internal class Enemy
     public float X { get; set; }
     public float Y { get; set; }
     public bool IsDead { get; set; }
-    public bool IsCollision { get; set; }
 
     private int animeIndex;
     public int AnimeIndex
@@ -32,7 +31,6 @@ internal class Enemy
         Collision = new();
         AnimeSprites = sprites;
         IsDead = false;
-        IsCollision = true;
     }
 
     public void Update()
