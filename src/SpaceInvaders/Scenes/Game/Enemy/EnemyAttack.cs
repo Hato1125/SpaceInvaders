@@ -1,4 +1,5 @@
 using SpaceInvaders.Graphics;
+using System.Runtime.CompilerServices;
 
 namespace SpaceInvaders.Scenes.Game;
 
@@ -6,10 +7,11 @@ internal class EnemyAttack
 {
     private readonly EnemyInfo enemyInfo;
     private readonly Enemy[,] enemyCell;
-    private readonly List<Enemy> attackEnemys;
+    private Enemy?[] attackEnemys;
 
     private Sprite? beamSprite;
 
+    private int attackEnemyNum;
     private double attackInterval;
     private double attackIntervalCounter;
 
@@ -17,7 +19,7 @@ internal class EnemyAttack
     {
         enemyCell = enemys;
         enemyInfo = info;
-        attackEnemys = new(info.ColumnNum);
+        attackEnemys = new Enemy?[info.ColumnNum];
     }
 
     public void Init(Sprite beam)
@@ -46,12 +48,15 @@ internal class EnemyAttack
         {
             attackIntervalCounter = 0;
             attackInterval = App.App.Random.Next(
-            enemyInfo.AttackIntervalMin,
-            enemyInfo.AttackIntervalMax + 1
-        );
+                enemyInfo.AttackIntervalMin,
+                enemyInfo.AttackIntervalMax + 1
+            );
 
-            var attackIndex = App.App.Random.Next(0, attackEnemys.Count);
+            var attackIndex = App.App.Random.Next(0, attackEnemyNum);
             var attackEnemy = attackEnemys[attackIndex];
+            if (attackEnemy == null)
+                return;
+
             var beginX = attackEnemy.X + (attackEnemy.Collision.Width - beamSprite.ActualWidth) / 2;
             var beginY = attackEnemy.Y;
 
@@ -61,17 +66,27 @@ internal class EnemyAttack
 
     private void AttackableEnemySearch()
     {
-        attackEnemys.Clear();
+        ClearEnemys();
         for (int i = 0; i < enemyInfo.ColumnNum; i++)
         {
             for (int j = enemyInfo.RowNum - 1; j > 0; j--)
             {
                 if (j != 0 && !enemyCell[j, i].IsDead)
                 {
-                    attackEnemys.Add(enemyCell[j, i]);
+                    attackEnemys[attackEnemyNum] = enemyCell[j, i];
+                    attackEnemyNum++;
                     break;
                 }
             }
         }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void ClearEnemys()
+    {
+        attackEnemyNum = 0;
+
+        for (int i = 0; i < attackEnemys.Length; i++)
+            attackEnemys[i] = default;
     }
 }
