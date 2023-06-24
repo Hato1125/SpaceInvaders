@@ -1,71 +1,49 @@
 ﻿using SpaceInvaders.App;
-using SpaceInvaders.Frame;
 using SpaceInvaders.Graphics;
 
 namespace SpaceInvaders.Scenes.License;
 
-internal class LicenseText : Scene
+internal class LicenseText
 {
-    private Sprite? fontSprite;
-    private Font16x16? noticeFont;
-    private Font16x16[]? licenseFont;
-
-    private readonly string[] texts = new string[]
-    {
-        "This application is MIT licensed.",
-        "The developer does not take any",
-        "responsibility regarding this",
-        "application. Also, we do not",
-        "guarantee that the application",
-        "will always work.",
-    };
+    private readonly string licenseText = """
+        This application is MIT licensed.
+        The developer does not take any r
+        esponsibility regarding this appl
+        ication. Also, we do not guarante
+        e that the application will alway
+        s work.
+        """;
 
     private readonly string noticeText = "notice";
 
-    public override void Init()
+    private Font16x16? noticeLabel;
+    private Font16x16? licenseLabel;
+
+    public void Init()
     {
+        if (LicenseScene.FontSprite == null)
+            return;
 
-        fontSprite = new(App.App.Window.RendererPtr, $"{AppInfo.TextureDire}Font16x16.png");
-
-        licenseFont = new Font16x16[texts.Length];
-        for(int i = 0; i < licenseFont.Length; i++)
+        noticeLabel = new(LicenseScene.FontSprite)
         {
-            licenseFont[i] = new(fontSprite)
-            {
-                Text = texts[i],
-                Scale = 2.0f,
-                TextSpace = -10,
-                TextColor = Color.White,
-            };
-        }
-
-        noticeFont = new(fontSprite)
-        {
-            Text = noticeText,
-            Scale = 2.5f,
+            Scale = 2.75f,
             TextSpace = -10,
+            Text = noticeText,
             TextColor = Color.Red,
+        };
+
+        licenseLabel = new(LicenseScene.FontSprite)
+        {
+            Scale = 2.0f,
+            TextSpace = -10,
+            Text = licenseText,
+            TextColor = Color.White,
         };
     }
 
-    public override void Render()
+    public void Render()
     {
-        noticeFont?.Render((AppInfo.Width - noticeFont.Width) / 2, 170);
-
-        if (licenseFont != null)
-        {
-            for (int i = 0; i < licenseFont.Length; i++)
-            {
-                licenseFont[i].Render(
-                    (AppInfo.Width - licenseFont[i].Width) / 2,
-                    (AppInfo.Height - licenseFont[i].Height * licenseFont.Length) / 2 + i * (licenseFont[i].Height + 3)
-                );
-            }
-        }
-    }
-
-    public override void Finish()
-    {
-        fontSprite?.Dispose();
+        noticeLabel?.Render((AppInfo.Width - noticeLabel.Width) / 2.0f, 150);
+        licenseLabel?.Render((AppInfo.Width - licenseLabel.Width) / 2.0f, 250, FontArrangement.Center);
     }
 }

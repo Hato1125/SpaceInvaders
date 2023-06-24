@@ -78,6 +78,13 @@ internal static class App
         Keyboard.Update();
         GameController.Update();
 
+#if DEBUG
+        if(Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_HOME))
+            SceneManager.ChangeScene("License");
+        if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_G))
+            GC.Collect();
+#endif
+
         SceneManager.SceneUpdate();
     }
 

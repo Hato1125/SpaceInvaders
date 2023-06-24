@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace SpaceInvaders.Graphics;
 
@@ -46,7 +47,7 @@ internal class Font16x16
         TextColor = Color.White;
     }
 
-    public void Render(float x, float y)
+    public void Render(float x, float y, FontArrangement fontArrangement = FontArrangement.Left)
     {
         float positionX = 0;
         float positionY = 0;
@@ -59,21 +60,23 @@ internal class Font16x16
         fontSprite.VerticalScale = Scale;
         fontSprite.BrightColor = TextColor;
 
-        for (int i = 0; i < charIndexs.Count; i++)
+        var span = CollectionsMarshal.AsSpan(charIndexs);
+        for (int i = 0; i < span.Length; i++)
         {
-            for (int j = 0; j < charIndexs[i].Length; j++)
+            for (int j = 0; j < span[i].Length; j++)
             {
                 if (i == -1)
                     continue;
 
-                if (charIndexs[i][j] < ALPHABET_NUM)
+                var fontPosition = CalclateFontPosition(fontArrangement, span[i].Length);
+                if (span[i][j] < ALPHABET_NUM)
                 {
-                    fontSprite.Render(x + positionX, y + positionY, new(charIndexs[i][j] * FONT_SIZE, 0, FONT_SIZE, FONT_SIZE));
+                    fontSprite.Render(x + fontPosition + positionX, y + positionY, new(span[i][j] * FONT_SIZE, 0, FONT_SIZE, FONT_SIZE));
                 }
                 else
                 {
-                    int numIndex = charIndexs[i][j] - ALPHABET_NUM;
-                    fontSprite.Render(x + positionX, y + positionY, new(numIndex * FONT_SIZE, FONT_SIZE, FONT_SIZE, FONT_SIZE));
+                    int numIndex = span[i][j] - ALPHABET_NUM;
+                    fontSprite.Render(x + fontPosition + positionX, y + positionY, new(numIndex * FONT_SIZE, FONT_SIZE, FONT_SIZE, FONT_SIZE));
                 }
 
                 positionX += FONT_SIZE * Scale + TextSpace;
@@ -86,6 +89,20 @@ internal class Font16x16
         fontSprite.HorizontalScale = hScale;
         fontSprite.VerticalScale = vScale;
         fontSprite.BrightColor = color;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private float CalclateFontPosition(FontArrangement fontArrangement, in int charLenght)
+    {
+        var textWidth = (FONT_SIZE * Scale + TextSpace) * charLenght - TextSpace;
+
+        return fontArrangement switch
+        {
+            FontArrangement.Left => 0,
+            FontArrangement.Center => (Width - textWidth) / 2.0f,
+            FontArrangement.Right => Width - textWidth,
+            _ => 0
+        };
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
