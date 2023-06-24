@@ -66,7 +66,8 @@ internal class EnemyAttack
 
     private void AttackableEnemySearch()
     {
-        ClearEnemys();
+        attackEnemyNum = 0;
+        Array.Clear(attackEnemys);
         for (int i = 0; i < enemyInfo.ColumnNum; i++)
         {
             for (int j = enemyInfo.RowNum - 1; j >= 0; j--)
@@ -79,14 +80,5 @@ internal class EnemyAttack
                 }
             }
         }
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private void ClearEnemys()
-    {
-        attackEnemyNum = 0;
-
-        for (int i = 0; i < attackEnemys.Length; i++)
-            attackEnemys[i] = default;
     }
 }
