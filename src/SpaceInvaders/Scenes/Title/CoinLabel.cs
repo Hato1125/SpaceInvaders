@@ -49,7 +49,7 @@ internal class CoinLabel
 
         coinFont = new(fontSprite)
         {
-            Text = string.Empty,
+            Text = "Coin",
             TextSpace = -10,
             TextColor = Color.White,
             Scale = 1.25f,
@@ -59,7 +59,7 @@ internal class CoinLabel
     public void Update()
     {
         flashCounter += App.App.Window.DeltaTime;
-        if (flashCounter > 1.0)
+        if (flashCounter > 1.5)
         {
             flashCounter = 0;
 
