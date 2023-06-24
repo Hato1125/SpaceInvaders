@@ -34,7 +34,10 @@ internal class CoinInput
         {
             if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
                 || IsControllerPushed(controller, nextSceneButtons))
+            {
+                CoinManager.DecreCoin();
                 SceneManager.ChangeScene("Game");
+            }
         }
     }
 
