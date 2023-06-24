@@ -18,6 +18,7 @@ internal class Sprite : IDisposable
     public float VerticalScale { get; set; }
     public float ActualWidth { get => Width * HorizontalScale; }
     public float ActualHeight { get => Height * VerticalScale; }
+    public Color BrightColor { get; set; }
     public SDL.SDL_BlendMode BlendMode { get; set; }
     public SDL.SDL_RendererFlip Flip { get; set; }
 
@@ -44,7 +45,7 @@ internal class Sprite : IDisposable
         {
             if (value > 360)
                 rotation = 360;
-            else if(value < 0)
+            else if (value < 0)
                 rotation = 0;
             else
                 rotation = value;
@@ -56,6 +57,7 @@ internal class Sprite : IDisposable
         Alpha = 255;
         HorizontalScale = 1.0f;
         VerticalScale = 1.0f;
+        BrightColor = Color.White;
         BlendMode = SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND;
         Flip = SDL.SDL_RendererFlip.SDL_FLIP_NONE;
     }
@@ -98,6 +100,7 @@ internal class Sprite : IDisposable
 
         SDL.SDL_SetTextureBlendMode(texturePtr, BlendMode);
         SDL.SDL_SetTextureAlphaMod(texturePtr, alpha);
+        SDL.SDL_SetTextureColorMod(texturePtr, BrightColor.R, BrightColor.G, BrightColor.B);
         SDL.SDL_RenderCopyExF(rendererPtr, texturePtr, ref srcRect, ref dsrRect, Rotation, 0, Flip);
     }
 

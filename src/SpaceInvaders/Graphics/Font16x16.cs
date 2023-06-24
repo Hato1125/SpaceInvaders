@@ -1,4 +1,6 @@
-﻿namespace SpaceInvaders.Graphics;
+﻿using System.Runtime.CompilerServices;
+
+namespace SpaceInvaders.Graphics;
 
 internal class Font16x16
 {
@@ -7,6 +9,11 @@ internal class Font16x16
 
     private readonly Sprite fontSprite;
     private readonly List<sbyte[]> charIndexs = new();
+
+    public Color TextColor { get; set; }
+    public float Scale { get; set; }
+    public int TextSpace { get; set; }
+    public int LineSpace { get; set; }
 
     private string _text = string.Empty;
     public string Text
@@ -17,42 +24,17 @@ internal class Font16x16
             if (value == _text)
                 return;
 
-            charIndexs.Clear();
-
-            if (!string.IsNullOrWhiteSpace(value))
-            {
-                var split = value.Split('\n');
-
-                Console.WriteLine(split.Length);
-
-                for (int i = 0; i < split.Length; i++)
-                {
-                    charIndexs.Add(new sbyte[split[i].Length]);
-
-                    for (int j = 0; j < split[i].Length; j++)
-                        charIndexs[i][j] = GetCharIndex(split[i][j]);
-                }
-            }
+            SetCharIndexs(value);
 
             _text = value;
         }
     }
 
-    private float scale;
-    public float Scale
-    {
-        get => scale;
-        set
-        {
-            scale = value;
+    public float Width
+        => charIndexs.Max(d => d.Length) * (FONT_SIZE * Scale + TextSpace) - TextSpace;
 
-            fontSprite.HorizontalScale = value;
-            fontSprite.VerticalScale = value;
-        }
-    }
-
-    public int TextSpace { get; set; }
-    public int LineSpace { get; set; }
+    public float Height
+        => charIndexs.Count * (FONT_SIZE * Scale + LineSpace) - LineSpace;
 
     public Font16x16(Sprite font)
     {
@@ -61,6 +43,7 @@ internal class Font16x16
         Scale = 1.0f;
         TextSpace = 0;
         LineSpace = 0;
+        TextColor = Color.White;
     }
 
     public void Render(float x, float y)
@@ -68,12 +51,18 @@ internal class Font16x16
         float positionX = 0;
         float positionY = 0;
 
-        for(int i = 0; i < charIndexs.Count; i++)
+        var hScale = fontSprite.HorizontalScale;
+        var vScale = fontSprite.VerticalScale;
+        var color = fontSprite.BrightColor;
+
+        fontSprite.HorizontalScale = Scale;
+        fontSprite.VerticalScale = Scale;
+        fontSprite.BrightColor = TextColor;
+
+        for (int i = 0; i < charIndexs.Count; i++)
         {
             for (int j = 0; j < charIndexs[i].Length; j++)
             {
-                positionX += FONT_SIZE * scale + TextSpace;
-
                 if (i == -1)
                     continue;
 
@@ -86,14 +75,40 @@ internal class Font16x16
                     int numIndex = charIndexs[i][j] - ALPHABET_NUM;
                     fontSprite.Render(x + positionX, y + positionY, new(numIndex * FONT_SIZE, FONT_SIZE, FONT_SIZE, FONT_SIZE));
                 }
+
+                positionX += FONT_SIZE * Scale + TextSpace;
             }
 
             positionX = 0;
-            positionY += FONT_SIZE * scale + LineSpace;
+            positionY += FONT_SIZE * Scale + LineSpace;
         }
+
+        fontSprite.HorizontalScale = hScale;
+        fontSprite.VerticalScale = vScale;
+        fontSprite.BrightColor = color;
     }
 
-    private static sbyte GetCharIndex(char ch) => ch switch
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void SetCharIndexs(string text)
+    {
+        charIndexs.Clear();
+
+        if (string.IsNullOrWhiteSpace(text))
+            return;
+
+            var split = text.Split('\n');
+
+            for (int i = 0; i < split.Length; i++)
+            {
+                charIndexs.Add(new sbyte[split[i].Length]);
+
+                for (int j = 0; j < split[i].Length; j++)
+                    charIndexs[i][j] = GetCharIndex(split[i][j]);
+            }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static sbyte GetCharIndex(in char ch) => ch switch
     {
         'a' or 'A' => 0,
         'b' or 'B' => 1,

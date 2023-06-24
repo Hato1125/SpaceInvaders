@@ -2,6 +2,7 @@
 using SpaceInvaders.Input;
 using SpaceInvaders.Logger;
 using SpaceInvaders.Scenes.Game;
+using SpaceInvaders.Scenes.Title;
 
 namespace SpaceInvaders.App;
 
@@ -61,7 +62,8 @@ internal static class App
         Log.WriteInfo("[START] initializing game data.");
 
         SceneManager.AddScene("Game" , new GameScene());
-        SceneManager.ChangeScene("Game");
+        SceneManager.AddScene("Title", new TitleScene());
+        SceneManager.ChangeScene("Title");
     }
 
     private static void Event(SDL.SDL_Event e)
