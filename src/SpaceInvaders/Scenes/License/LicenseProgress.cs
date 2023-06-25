@@ -13,6 +13,7 @@ internal class LicenseProgress
 
     public void Init()
     {
+        IsStartProgress = false;
         progressRect.w = 0;
         progressCounter = 0;
     }

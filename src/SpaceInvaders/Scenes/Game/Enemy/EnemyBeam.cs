@@ -34,8 +34,7 @@ internal class EnemyBeam
 
         if (y >= AppInfo.Height + beamSprite.ActualHeight)
             GameScene.BeamScreen.RemoveBeam(this);
-
-        if (CollisionComponent.IsCollision(Collision, GameScene.Player.GetCollision()))
+        else if (CollisionComponent.IsCollision(Collision, GameScene.Player.GetCollision()))
             GameScene.BeamScreen.RemoveBeam(this);
     }
 

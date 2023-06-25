@@ -34,7 +34,7 @@ internal class EnemyAttack
 
     public void Update()
     {
-        AttackableEnemySearch();
+        SearchAttackableEnemys();
         Attack();
     }
 
@@ -64,7 +64,7 @@ internal class EnemyAttack
         }
     }
 
-    private void AttackableEnemySearch()
+    private void SearchAttackableEnemys()
     {
         attackEnemyNum = 0;
         Array.Clear(attackEnemys);

@@ -32,20 +32,24 @@ internal class PlayerBeam
         Collision.Height = beamSprite.ActualHeight;
 
         if (y < -beamSprite.ActualHeight)
-            GameScene.BeamScreen.RemoveBeam();
-
-        var enemyCell = GameScene.Enemy.GetEnemyCell();
-        for (int i = 0; i < enemyCell.GetLength(0); i++)
         {
-            for (int j = 0; j < enemyCell.GetLength(1); j++)
+            GameScene.BeamScreen.RemoveBeam();
+        }
+        else
+        {
+            var enemyCell = GameScene.Enemy.GetEnemyCell();
+            for (int i = 0; i < enemyCell.GetLength(0); i++)
             {
-                if (!enemyCell[i, j].IsDead
-                    && CollisionComponent.IsCollision(enemyCell[i, j].Collision, Collision))
+                for (int j = 0; j < enemyCell.GetLength(1); j++)
                 {
-                    enemyCell[i, j].IsDead = true;
-                    GameScene.BeamScreen.RemoveBeam();
+                    if (!enemyCell[i, j].IsDead
+                        && CollisionComponent.IsCollision(enemyCell[i, j].Collision, Collision))
+                    {
+                        enemyCell[i, j].IsDead = true;
+                        GameScene.BeamScreen.RemoveBeam();
 
-                    IsClear();
+                        IsClear();
+                    }
                 }
             }
         }

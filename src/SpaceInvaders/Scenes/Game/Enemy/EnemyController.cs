@@ -62,10 +62,7 @@ internal class EnemyController : Scene
         for (int i = 0; i < enemyInfo.RowNum; i++)
         {
             for (int j = 0; j < enemyInfo.ColumnNum; j++)
-                enemyCell[i, j] = new(GetEnemySprites(i))
-                {
-                    IsDead = i == 0 && j == 0 ? false : true,
-                };
+                enemyCell[i, j] = new(GetEnemySprites(i));
         }
 
         beamSprite = new(App.App.Window.RendererPtr, $"{AppInfo.GameTextureDire}EnemyBeam.png")

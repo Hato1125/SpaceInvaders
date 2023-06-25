@@ -26,6 +26,7 @@ internal class ScreenFade : Scene
     {
         fadeOpacity = 0;
         fadeInCounter = 0;
+        fadeDelayCounter = 0;
         fadeOutCounter = 0;
         delayCounter = 0;
     }
