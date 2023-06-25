@@ -1,5 +1,6 @@
 .vs/
 src/SpaceInvaders/obj/
+Release/
 
 *.exe
 *.dll
