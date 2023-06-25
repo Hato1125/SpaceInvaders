@@ -11,9 +11,9 @@ internal class GameScene : Scene
 
     public GameScene()
     {
-        Children.Add(GameClear);
         Children.Add(Enemy);
         Children.Add(Player);
         Children.Add(BeamScreen);
+        Children.Add(GameClear);
     }
 }

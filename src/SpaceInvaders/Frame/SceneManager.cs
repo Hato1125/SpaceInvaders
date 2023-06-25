@@ -49,7 +49,6 @@ internal static class SceneManager
 
         if (waitStopwatch.IsRunning && waitScenes != null)
         {
-            Console.WriteLine(waitStopwatch.Elapsed.TotalSeconds + " >" + waitTimeMs);
             if (waitStopwatch.Elapsed.TotalSeconds > waitTimeMs)
             {
                 foreach (var scene in waitScenes)
