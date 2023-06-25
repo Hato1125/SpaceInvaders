@@ -7,14 +7,17 @@ internal class Scene
 
     public virtual void Init()
     {
-        foreach(var child in Children)
+        foreach (var child in Children)
             child.Init();
     }
 
     public virtual void Update()
     {
         foreach (var child in Children)
-            child.Update();
+        {
+            if (child.State == SceneState.Active)
+                child.Update();
+        }
     }
 
     public virtual void Render()

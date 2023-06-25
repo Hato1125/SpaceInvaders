@@ -48,7 +48,7 @@ internal class PlayerBeam
                         enemyCell[i, j].IsDead = true;
                         GameScene.BeamScreen.RemoveBeam();
 
-                        IsClear();
+                        CheckGameClear();
                     }
                 }
             }
@@ -60,11 +60,14 @@ internal class PlayerBeam
         beamSprite.Render(x, y);
     }
 
-    private void IsClear()
+    private void CheckGameClear()
     {
+        if (GameScene.GameClear.IsGameClear)
+            return;
+
         var enemyCell = GameScene.Enemy.GetEnemyCell();
         var enemyArray = enemyCell.Cast<Enemy>();
 
-        GameScene.IsClear = enemyArray.All(e => e.IsDead);
+        GameScene.GameClear.IsGameClear = enemyArray.All(e => e.IsDead);
     }
 }
