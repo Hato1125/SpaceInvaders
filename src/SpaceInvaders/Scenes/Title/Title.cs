@@ -1,6 +1,7 @@
 ﻿using SpaceInvaders.App;
 using SpaceInvaders.Frame;
 using SpaceInvaders.Graphics;
+using SpaceInvaders.Scenes.Round;
 
 namespace SpaceInvaders.Scenes.Title;
 
@@ -10,6 +11,7 @@ internal class Title : Scene
 
     public override void Init()
     {
+        RoundScene.RoundCount = 1;
         titleSprite = new(App.App.Window.RendererPtr, $"{AppInfo.TitleTextureDire}Title.png");
     }
 

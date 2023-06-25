@@ -36,7 +36,7 @@ internal class CoinInput
                 || IsControllerPushed(controller, nextSceneButtons))
             {
                 CoinManager.DecreCoin();
-                SceneManager.ChangeScene("Game");
+                SceneManager.ChangeScene("Round");
             }
         }
     }

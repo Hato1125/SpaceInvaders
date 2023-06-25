@@ -44,6 +44,8 @@ internal class PlayerBeam
                 {
                     enemyCell[i, j].IsDead = true;
                     GameScene.BeamScreen.RemoveBeam();
+
+                    IsClear();
                 }
             }
         }
@@ -52,5 +54,13 @@ internal class PlayerBeam
     public void Render()
     {
         beamSprite.Render(x, y);
+    }
+
+    private void IsClear()
+    {
+        var enemyCell = GameScene.Enemy.GetEnemyCell();
+        var enemyArray = enemyCell.Cast<Enemy>();
+
+        GameScene.IsClear = enemyArray.All(e => e.IsDead);
     }
 }

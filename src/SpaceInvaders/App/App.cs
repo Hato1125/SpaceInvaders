@@ -3,6 +3,7 @@ using SpaceInvaders.Input;
 using SpaceInvaders.Logger;
 using SpaceInvaders.Scenes.Game;
 using SpaceInvaders.Scenes.Title;
+using SpaceInvaders.Scenes.Round;
 using SpaceInvaders.Scenes.License;
 
 namespace SpaceInvaders.App;
@@ -62,9 +63,10 @@ internal static class App
     {
         Log.WriteInfo("[START] initializing game data.");
 
-        SceneManager.AddScene("Game" , new GameScene());
+        SceneManager.AddScene("Game", new GameScene());
         SceneManager.AddScene("Title", new TitleScene());
         SceneManager.AddScene("License", new LicenseScene());
+        SceneManager.AddScene("Round", new RoundScene());
         SceneManager.ChangeScene("License");
     }
 
@@ -79,8 +81,9 @@ internal static class App
         GameController.Update();
 
 #if DEBUG
-        if(Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_HOME))
+        if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_HOME))
             SceneManager.ChangeScene("License");
+
         if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_G))
             GC.Collect();
 #endif

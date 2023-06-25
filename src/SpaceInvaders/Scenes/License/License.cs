@@ -29,8 +29,4 @@ internal class License : Scene
         text.Render();
         progress.Render();
     }
-
-    public override void Finish()
-    {
-    }
 }
