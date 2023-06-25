@@ -42,7 +42,9 @@ internal static class SceneManager
         if (CurrentSceneName == string.Empty)
             return;
 
-        scenes[CurrentSceneName].Update();
+        if (scenes[CurrentSceneName].State == SceneState.Active)
+            scenes[CurrentSceneName].Update();
+
         scenes[CurrentSceneName].Render();
     }
 

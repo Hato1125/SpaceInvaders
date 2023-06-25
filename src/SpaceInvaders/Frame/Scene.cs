@@ -3,6 +3,7 @@
 internal class Scene
 {
     protected readonly List<Scene> Children = new();
+    public SceneState State = SceneState.Active;
 
     public virtual void Init()
     {
@@ -27,4 +28,10 @@ internal class Scene
         foreach (var child in Children)
             child.Finish();
     }
+}
+
+public enum SceneState
+{
+    Active,
+    Inactive,
 }
