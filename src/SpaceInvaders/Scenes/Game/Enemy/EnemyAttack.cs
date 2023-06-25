@@ -1,5 +1,4 @@
 using SpaceInvaders.Graphics;
-using System.Runtime.CompilerServices;
 
 namespace SpaceInvaders.Scenes.Game;
 

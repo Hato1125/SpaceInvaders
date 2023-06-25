@@ -64,7 +64,6 @@ internal class EnemyController : Scene
             for (int j = 0; j < enemyInfo.ColumnNum; j++)
                 enemyCell[i, j] = new(GetEnemySprites(i))
                 {
-                    IsDead = i == 0 && j == 0 ? false : true,
                 };
         }
 

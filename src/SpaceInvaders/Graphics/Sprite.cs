@@ -109,8 +109,8 @@ internal class Sprite : IDisposable
         if (isDispose)
             return;
 
-        SDL.SDL_DestroyTexture(texturePtr);
-
         isDispose = true;
+
+        SDL.SDL_DestroyTexture(texturePtr);
     }
 }

@@ -7,13 +7,10 @@ internal static class Log
     public static void Initializing(string fileName)
     {
         var dire = Path.GetDirectoryName(fileName);
-        if(!string.IsNullOrWhiteSpace(dire) && !Directory.Exists(dire))
+        if (!string.IsNullOrWhiteSpace(dire) && !Directory.Exists(dire))
             Directory.CreateDirectory(dire);
 
-        if(!File.Exists(fileName))
-            File.Create(fileName).Dispose();
-
-        writer = new(fileName);
+        writer = new(fileName, true);
     }
 
     public static void Finalizing()
@@ -39,23 +36,11 @@ internal static class Log
 
     private static void WriteLog(Level level, string message)
     {
-        bool isWriteConsole = level switch
-        {
-            Level.FATAL => true,
-            Level.ERROR => true,
-            Level.WARN => true,
-            Level.INFO => true,
-            Level.DEBUG => true,
-            Level.TRACE => true,
-            _ => true
-        };
-
         string nowTime = DateTime.Now.ToString("yyyy-mm-dd hh:mm:ss");
         string writeMessage = $"{level} {nowTime} {message}";
 
 #if DEBUG
-        if (isWriteConsole)
-            Console.WriteLine(writeMessage);
+        Console.WriteLine(writeMessage);
 #endif
 
         writer?.WriteLine(writeMessage);

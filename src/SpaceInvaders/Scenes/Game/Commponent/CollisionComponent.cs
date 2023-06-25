@@ -1,4 +1,6 @@
-﻿namespace SpaceInvaders.Scenes.Game;
+﻿using System.Runtime.CompilerServices;
+
+namespace SpaceInvaders.Scenes.Game;
 
 internal class CollisionComponent
 {
@@ -7,16 +9,10 @@ internal class CollisionComponent
     public float Width { get; set; }
     public float Height { get; set; }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsCollision(CollisionComponent collision1, CollisionComponent collision2)
-    {
-        if (collision1.X + collision1.Width >= collision2.X
-            && collision1.X <= collision2.X + collision2.Width)
-        {
-            if (collision1.Y + collision1.Height >= collision2.Y
-                && collision1.Y <= collision2.Y + collision2.Height)
-                return true;
-        }
-
-        return false;
-    }
+        => collision1.X + collision1.Width >= collision2.X
+        && collision1.X <= collision2.X + collision2.Width
+        && collision1.Y + collision1.Height >= collision2.Y
+        && collision1.Y <= collision2.Y + collision2.Height;
 }

@@ -6,6 +6,12 @@ namespace SpaceInvaders.Scenes.Game;
 
 internal class GameClear : Scene
 {
+    private readonly Scene[] waitScenes = new Scene[]
+    {
+        GameScene.BeamScreen,
+        GameScene.Player,
+    };
+
     private bool isGameClear;
     public bool IsGameClear
     {
@@ -13,16 +19,9 @@ internal class GameClear : Scene
         set
         {
             isGameClear = value;
-            var sceneState = value
-                ? SceneState.Inactive
-                : SceneState.Active;
 
-            var waitScene = new Scene[] {
-                GameScene.BeamScreen,
-                GameScene.Player,
-            };
-
-            SceneManager.WaitScene(waitScene, 2);
+            if (value)
+                SceneManager.WaitScene(waitScenes, 2);
         }
     }
 
@@ -76,7 +75,7 @@ internal class GameClear : Scene
     private void TransitionToRoundOrTitle()
     {
         RoundScene.RoundCount++;
-        if(RoundScene.RoundCount > 3)
+        if (RoundScene.RoundCount > 3)
             SceneManager.ChangeScene("Title");
         else
             SceneManager.ChangeScene("Round");

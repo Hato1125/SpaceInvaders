@@ -28,7 +28,7 @@ internal class CoinInput
         var controller = GameController.GetRegisteredGameController();
 
         if (IsKeyboardPushed(keyCodes) || IsControllerPushed(controller, buttons))
-            CoinManager.PushCoin();
+            CoinManager.IncreCoin();
 
         if (CoinManager.Coin > 0)
         {
