@@ -2,6 +2,7 @@
 src/SpaceInvaders/obj/
 Release/
 
+*.db
 *.exe
 *.dll
 *.pdb

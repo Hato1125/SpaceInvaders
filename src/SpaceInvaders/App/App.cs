@@ -5,6 +5,7 @@ using SpaceInvaders.Scenes.Game;
 using SpaceInvaders.Scenes.Title;
 using SpaceInvaders.Scenes.Round;
 using SpaceInvaders.Scenes.License;
+using SpaceInvaders.Database;
 
 namespace SpaceInvaders.App;
 
@@ -63,6 +64,8 @@ internal static class App
     {
         Log.WriteInfo("[START] initializing game data.");
 
+        ScoreDataManager.Initializing(AppInfo.ScoreDatabaseName);
+
         SceneManager.AddScene("Game", new GameScene());
         SceneManager.AddScene("Title", new TitleScene());
         SceneManager.AddScene("License", new LicenseScene());
@@ -86,6 +89,20 @@ internal static class App
 
         if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_G))
             GC.Collect();
+
+        if(Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_D))
+        {
+            var score = new ScoreData()
+            {
+                Name = $"TestName: {Random.Next(0, 1000)}",
+                Score = Random.Next(0, 1000),
+            };
+
+            ScoreDataManager.AddScore(score);
+        }
+
+        if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_DELETE))
+            ScoreDataManager.AllDelete();
 #endif
 
         SceneManager.SceneUpdate();
@@ -95,6 +112,7 @@ internal static class App
     {
         Log.WriteInfo("[START] Discard game data.");
 
+        ScoreDataManager.Finalizing();
         SceneManager.RemoveAllScene();
     }
 }

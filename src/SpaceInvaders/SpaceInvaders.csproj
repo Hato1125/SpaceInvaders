@@ -8,5 +8,9 @@
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <BaseOutputPath>..\..\build</BaseOutputPath>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="5.0.16" />
+  </ItemGroup>
   
 </Project>
