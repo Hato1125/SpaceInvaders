@@ -12,5 +12,6 @@ internal static class AppInfo
     public static readonly string TextureDire = $"{AppContext.BaseDirectory}Resource\\Texture\\";
     public static readonly string TitleTextureDire = $"{TextureDire}Title\\";
     public static readonly string GameTextureDire = $"{TextureDire}Game\\";
+    public static readonly string RankTextureDire = $"{TextureDire}Rank\\";
     public static readonly string SoundDire = $"{AppContext.BaseDirectory}Resource\\Sound\\";
 }

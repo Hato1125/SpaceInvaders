@@ -62,6 +62,15 @@ internal class ScoreDataManager
         Log.WriteInfo($"[DATABASE] Create data.");
     }
 
+    public static IEnumerable<ScoreData>? GetAllData()
+    {
+        if (collection == null)
+            return null;
+
+        return collection.FindAll();
+    }
+
+
     public static void AllDelete()
     {
         collection?.DeleteAll();
