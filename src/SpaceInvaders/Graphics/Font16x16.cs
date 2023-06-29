@@ -155,15 +155,15 @@ internal class Font16x16
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-            var split = text.Split('\n');
+        var split = text.Split('\n');
 
-            for (int i = 0; i < split.Length; i++)
-            {
-                charIndexs.Add(new sbyte[split[i].Length]);
+        for (int i = 0; i < split.Length; i++)
+        {
+            charIndexs.Add(new sbyte[split[i].Length]);
 
-                for (int j = 0; j < split[i].Length; j++)
-                    charIndexs[i][j] = GetCharIndex(split[i][j]);
-            }
+            for (int j = 0; j < split[i].Length; j++)
+                charIndexs[i][j] = GetCharIndex(split[i][j]);
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
