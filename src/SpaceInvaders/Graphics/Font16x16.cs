@@ -1,5 +1,5 @@
-﻿using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using System.Runtime.CompilerServices;
 
 namespace SpaceInvaders.Graphics;
 
@@ -10,11 +10,51 @@ internal class Font16x16
 
     private readonly Sprite fontSprite;
     private readonly List<sbyte[]> charIndexs = new();
+    private readonly List<(float[] X, float Y)> charPositions = new();
 
     public Color TextColor { get; set; }
-    public float Scale { get; set; }
-    public int TextSpace { get; set; }
-    public int LineSpace { get; set; }
+
+    private float scale;
+    public float Scale
+    {
+        get => scale;
+        set
+        {
+            if (value == scale)
+                return;
+
+            scale = value;
+            CalclateCharPosition();
+        }
+    }
+
+    private int textSpace;
+    public int TextSpace
+    {
+        get => textSpace;
+        set
+        {
+            if (value == textSpace)
+                return;
+
+            textSpace = value;
+            CalclateCharPosition();
+        }
+    }
+
+    private int lineSpace;
+    public int LineSpace
+    {
+        get => lineSpace;
+        set
+        {
+            if (value == lineSpace)
+                return;
+
+            lineSpace = value;
+            CalclateCharPosition();
+        }
+    }
 
     private string _text = string.Empty;
     public string Text
@@ -26,6 +66,7 @@ internal class Font16x16
                 return;
 
             SetCharIndexs(value);
+            CalclateCharPosition();
 
             _text = value;
         }
@@ -47,11 +88,8 @@ internal class Font16x16
         TextColor = Color.White;
     }
 
-    public void Render(float x, float y, FontArrangement fontArrangement = FontArrangement.Left)
+    public void Render(in float x, in float y, FontArrangement fontArrangement = FontArrangement.Left)
     {
-        float positionX = 0;
-        float positionY = 0;
-
         var hScale = fontSprite.HorizontalScale;
         var vScale = fontSprite.VerticalScale;
         var color = fontSprite.BrightColor;
@@ -60,30 +98,33 @@ internal class Font16x16
         fontSprite.VerticalScale = Scale;
         fontSprite.BrightColor = TextColor;
 
-        var span = CollectionsMarshal.AsSpan(charIndexs);
-        for (int i = 0; i < span.Length; i++)
+        for (int i = 0; i < charIndexs.Count; i++)
         {
-            for (int j = 0; j < span[i].Length; j++)
+            for (int j = 0; j < charIndexs[i].Length; j++)
             {
                 if (i == -1)
                     continue;
 
-                var fontPosition = CalclateFontPosition(fontArrangement, span[i].Length);
-                if (span[i][j] < ALPHABET_NUM)
+                var fontPosition = CalclateFontPosition(fontArrangement, charIndexs[i].Length);
+                if (charIndexs[i][j] < ALPHABET_NUM)
                 {
-                    fontSprite.Render(x + fontPosition + positionX, y + positionY, new(span[i][j] * FONT_SIZE, 0, FONT_SIZE, FONT_SIZE));
+                    fontSprite.Render(
+                        x + fontPosition + charPositions[i].X[j],
+                        y + charPositions[i].Y,
+                        new(charIndexs[i][j] * FONT_SIZE, 0, FONT_SIZE, FONT_SIZE)
+                    );
                 }
                 else
                 {
-                    int numIndex = span[i][j] - ALPHABET_NUM;
-                    fontSprite.Render(x + fontPosition + positionX, y + positionY, new(numIndex * FONT_SIZE, FONT_SIZE, FONT_SIZE, FONT_SIZE));
+                    int numIndex = charIndexs[i][j] - ALPHABET_NUM;
+
+                    fontSprite.Render(
+                        x + fontPosition + charPositions[i].X[j],
+                        y + charPositions[i].Y,
+                        new(numIndex * FONT_SIZE, FONT_SIZE, FONT_SIZE, FONT_SIZE)
+                    );
                 }
-
-                positionX += FONT_SIZE * Scale + TextSpace;
             }
-
-            positionX = 0;
-            positionY += FONT_SIZE * Scale + LineSpace;
         }
 
         fontSprite.HorizontalScale = hScale;
@@ -108,7 +149,8 @@ internal class Font16x16
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void SetCharIndexs(string text)
     {
-        charIndexs.Clear();
+        if (charIndexs.Any())
+            charIndexs.Clear();
 
         if (string.IsNullOrWhiteSpace(text))
             return;
@@ -122,6 +164,31 @@ internal class Font16x16
                 for (int j = 0; j < split[i].Length; j++)
                     charIndexs[i][j] = GetCharIndex(split[i][j]);
             }
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private void CalclateCharPosition()
+    {
+        var positionY = 0f;
+
+        if (charPositions.Any())
+            charPositions.Clear();
+
+        var chars = CollectionsMarshal.AsSpan(charIndexs);
+        for(int i = 0; i < chars.Length; i++)
+        {
+            var charPosition = new float[charIndexs[i].Length];
+
+            for(int j = 0; j < chars[i].Length; j++)
+            {
+                var positionX = (FONT_SIZE * Scale + TextSpace) * j;
+                positionY = (FONT_SIZE * Scale + LineSpace) * i;
+
+                charPosition[j] = positionX;
+            }
+
+            charPositions.Add((charPosition, positionY));
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
