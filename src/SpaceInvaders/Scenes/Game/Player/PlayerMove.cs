@@ -15,52 +15,12 @@ internal class PlayerMove
 
     public void Update()
     {
-        var controllers = GameController.GetRegisteredGameController();
-
-        if(IsLeftPush(controllers))
+        if(Keyboard.IsPushing(SDL.SDL_Scancode.SDL_SCANCODE_LEFT)
+            || GameController.IsPushing(0, SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_DPAD_LEFT))
             player.X -= (float)(playerInfo.MoveSpeed * App.App.Window.DeltaTime);
 
-        if(IsRightPush(controllers))
+        if (Keyboard.IsPushing(SDL.SDL_Scancode.SDL_SCANCODE_RIGHT)
+            || GameController.IsPushing(0, SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
             player.X += (float)(playerInfo.MoveSpeed * App.App.Window.DeltaTime);
-    }
-
-    private bool IsLeftPush(IReadOnlyList<nint>? controllers)
-    {
-        if (Keyboard.IsPushing(SDL.SDL_Scancode.SDL_SCANCODE_LEFT))
-        {
-            return true;
-        }
-        else
-        {
-            if (controllers == null)
-                return false;
-
-            if (GameController.IsPushing(
-                controllers[0],
-                SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_DPAD_LEFT))
-                return true;
-        }
-
-        return false;
-    }
-
-    private bool IsRightPush(IReadOnlyList<nint>? controllers)
-    {
-        if (Keyboard.IsPushing(SDL.SDL_Scancode.SDL_SCANCODE_RIGHT))
-        {
-            return true;
-        }
-        else
-        {
-            if (controllers == null)
-                return false;
-
-            if (GameController.IsPushing(
-                controllers[0],
-                SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_DPAD_RIGHT))
-                return true;
-        }
-
-        return false;
     }
 }

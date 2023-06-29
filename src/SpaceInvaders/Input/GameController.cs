@@ -1,4 +1,5 @@
 ﻿using SpaceInvaders.Logger;
+using System.Runtime.CompilerServices;
 
 namespace SpaceInvaders.Input;
 
@@ -38,9 +39,9 @@ internal static class GameController
             for (int i = 0; i < GAMECONTROLLER_BUTTON_NUM; i++)
             {
                 if (SDL.SDL_GameControllerGetButton(controller.Key, GetGameController(i)) == 1)
-                    controller.Value[i] = (sbyte)(IsPushing(controller.Key, GetGameController(i)) ? 2 : 1);
+                    controller.Value[i] = (sbyte)(IsControllerPushing(controller.Key, GetGameController(i)) ? 2 : 1);
                 else
-                    controller.Value[i] = (sbyte)(IsPushing(controller.Key, GetGameController(i)) ? -1 : 0);
+                    controller.Value[i] = (sbyte)(IsControllerPushing(controller.Key, GetGameController(i)) ? -1 : 0);
             }
         }
     }
@@ -53,17 +54,68 @@ internal static class GameController
         return registController;
     }
 
-    public static bool IsPushing(nint gameController, SDL.SDL_GameControllerButton button)
+    public static bool IsControllerPushing(nint gameController, SDL.SDL_GameControllerButton button)
         => gameControllers.ContainsKey(gameController)
             && gameControllers[gameController][GetGameControllerIndex(button)] > 0;
 
-    public static bool IsPushed(nint gameController, SDL.SDL_GameControllerButton button)
+    public static bool IsControllerPushed(nint gameController, SDL.SDL_GameControllerButton button)
         => gameControllers.ContainsKey(gameController)
             && gameControllers[gameController][GetGameControllerIndex(button)] == 1;
 
-    public static bool IsSeparate(nint gameController, SDL.SDL_GameControllerButton button)
+    public static bool IsControllerSeparate(nint gameController, SDL.SDL_GameControllerButton button)
         => gameControllers.ContainsKey(gameController)
             && gameControllers[gameController][GetGameControllerIndex(button)] == -1;
+
+    public static bool IsPushing(int controllerIndex, SDL.SDL_GameControllerButton button)
+        => registController.Any()
+        && registController.Count - 1 >= controllerIndex
+        && IsControllerPushing(registController[controllerIndex], button);
+
+    public static bool IsPushed(int controllerIndex, SDL.SDL_GameControllerButton button)
+        => registController.Any()
+        && registController.Count - 1 >= controllerIndex
+        && IsControllerPushed(registController[controllerIndex], button);
+
+    public static bool IsSeparate(int controllerIndex, SDL.SDL_GameControllerButton button)
+        => registController.Any()
+        && registController.Count - 1 >= controllerIndex
+        && IsControllerSeparate(registController[controllerIndex], button);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsPushing(int controllerIndex, ReadOnlySpan<SDL.SDL_GameControllerButton> buttons)
+    {
+        foreach (var btn in buttons)
+        {
+            if (IsPushing(controllerIndex, btn))
+                return true;
+        }
+
+        return false;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsPushed(in int controllerIndex, ReadOnlySpan<SDL.SDL_GameControllerButton> buttons)
+    {
+        foreach (var btn in buttons)
+        {
+            if (IsPushed(controllerIndex, btn))
+                return true;
+        }
+
+        return false;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsSeparate(in int controllerIndex, ReadOnlySpan<SDL.SDL_GameControllerButton> buttons)
+    {
+        foreach (var btn in buttons)
+        {
+            if (IsSeparate(controllerIndex, btn))
+                return true;
+        }
+
+        return false;
+    }
 
     private static int GetGameControllerIndex(SDL.SDL_GameControllerButton button)
         => (int)button;

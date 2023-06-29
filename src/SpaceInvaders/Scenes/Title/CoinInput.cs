@@ -25,44 +25,18 @@ internal class CoinInput
 
     public void Update()
     {
-        var controller = GameController.GetRegisteredGameController();
-
-        if (IsKeyboardPushed(keyCodes) || IsControllerPushed(controller, buttons))
+        if (Keyboard.IsPushed(keyCodes)
+            || GameController.IsPushed(0, buttons))
             CoinManager.IncreCoin();
 
         if (CoinManager.Coin > 0)
         {
             if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
-                || IsControllerPushed(controller, nextSceneButtons))
+                || GameController.IsPushed(0, nextSceneButtons))
             {
                 CoinManager.DecreCoin();
                 SceneManager.ChangeScene("Round");
             }
         }
-    }
-
-    private static bool IsControllerPushed(IReadOnlyList<nint>? controller, SDL.SDL_GameControllerButton[] buttons)
-    {
-        if (controller == null)
-            return false;
-
-        foreach (var button in buttons)
-        {
-            if (GameController.IsPushed(controller[0], button))
-                return true;
-        }
-
-        return false;
-    }
-
-    private static bool IsKeyboardPushed(SDL.SDL_Scancode[] keyCodes)
-    {
-        foreach (var keyCode in keyCodes)
-        {
-            if (Keyboard.IsPushed(keyCode))
-                return true;
-        }
-
-        return false;
     }
 }
