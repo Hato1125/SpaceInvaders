@@ -6,6 +6,7 @@ internal class Enemy
 {
     public readonly CollisionComponent Collision;
     public readonly Sprite[] AnimeSprites;
+    public readonly int Point;
 
     public float X { get; set; }
     public float Y { get; set; }
@@ -26,9 +27,10 @@ internal class Enemy
         }
     }
 
-    public Enemy(Sprite[] sprites)
+    public Enemy(Sprite[] sprites, int point)
     {
         Collision = new();
+        Point = point;
         AnimeSprites = sprites;
         IsDead = false;
     }

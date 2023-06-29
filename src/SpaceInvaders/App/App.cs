@@ -6,6 +6,7 @@ using SpaceInvaders.Scenes.Title;
 using SpaceInvaders.Scenes.Round;
 using SpaceInvaders.Scenes.License;
 using SpaceInvaders.Database;
+using SpaceInvaders.Scenes;
 
 namespace SpaceInvaders.App;
 
@@ -66,6 +67,7 @@ internal static class App
 
         ScoreDataManager.Initializing(AppInfo.ScoreDatabaseName);
 
+        Share.Init();
         SceneManager.AddScene("Game", new GameScene());
         SceneManager.AddScene("Title", new TitleScene());
         SceneManager.AddScene("License", new LicenseScene());
@@ -114,5 +116,6 @@ internal static class App
 
         ScoreDataManager.Finalizing();
         SceneManager.RemoveAllScene();
+        Share.Finish();
     }
 }

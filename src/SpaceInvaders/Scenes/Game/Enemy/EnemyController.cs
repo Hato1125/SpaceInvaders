@@ -62,9 +62,12 @@ internal class EnemyController : Scene
         for (int i = 0; i < enemyInfo.RowNum; i++)
         {
             for (int j = 0; j < enemyInfo.ColumnNum; j++)
-                enemyCell[i, j] = new(GetEnemySprites(i))
-                {
-                };
+            {
+                var sprite = GetEnemySprites(i);
+                var point = GetEnemyPoint(i);
+
+                enemyCell[i, j] = new(sprite, point);
+            }
         }
 
         beamSprite = new(App.App.Window.RendererPtr, $"{AppInfo.GameTextureDire}EnemyBeam.png")
@@ -118,5 +121,13 @@ internal class EnemyController : Scene
         1 or 2 => new Sprite[] { enemySprites[1, 0], enemySprites[1, 1] },
         3 or 4 => new Sprite[] { enemySprites[2, 0], enemySprites[2, 1] },
         _ => new Sprite[] { enemySprites[0, 0], enemySprites[0, 1] },
+    };
+
+    private int GetEnemyPoint(int index) => index switch
+    {
+        0 => 10,
+        1 or 2 => 20,
+        3 or 4 => 30,
+        _ => 0,
     };
 }

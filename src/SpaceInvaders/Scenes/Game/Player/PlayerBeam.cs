@@ -46,6 +46,8 @@ internal class PlayerBeam
                         && CollisionComponent.IsCollision(enemyCell[i, j].Collision, Collision))
                     {
                         enemyCell[i, j].IsDead = true;
+
+                        GameInfo.Score += enemyCell[i, j].Point;
                         GameScene.BeamScreen.RemoveBeam();
 
                         CheckGameClear();
