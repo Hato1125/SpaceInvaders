@@ -66,7 +66,7 @@ internal class EnemyController : Scene
                 var sprite = GetEnemySprites(i);
                 var point = GetEnemyPoint(i);
 
-                enemyCell[i, j] = new(sprite, point);
+                enemyCell[i, j] = new(sprite, point) { IsDead = !(i == 0 && j == 0), };
             }
         }
 
