@@ -4,55 +4,50 @@ namespace SpaceInvaders.Resource;
 
 internal record SpriteResource
 {
-    public readonly string ResourceName;
     public readonly string ResourceFileName;
-
     public Sprite? Resource;
 
-    public SpriteResource(string name, string fileName)
+    public SpriteResource(string fileName)
     {
-        ResourceName = name;
         ResourceFileName = fileName;
     }
 }
 
 internal static class SpriteManager
 {
-    private static readonly List<SpriteResource> resources = new();
+    private static readonly Dictionary<string, SpriteResource> resources = new();
 
-    public static IReadOnlyList<SpriteResource> RegistSpriteList
+    public static IReadOnlyDictionary<string, SpriteResource> RegistSpriteList
         => resources;
 
     public static void RegistSprite(string name, string fileName)
     {
-        if (resources.Find(r => r.ResourceName == name) != null)
+        if (!resources.ContainsKey(name))
             return;
 
-        resources.Add(new(name, fileName));
+        resources.Add(name, new(fileName));
     }
 
     public static void RegistSprite(nint renderer, string name, string fileName)
     {
-        if (resources.Find(r => r.ResourceName == name) != null)
+        if (resources.ContainsKey(name))
             return;
 
-        var resource = new SpriteResource(name, fileName)
+        var resource = new SpriteResource(fileName)
         {
             Resource = new(renderer, fileName),
         };
 
-        resources.Add(resource);
+        resources.Add(name, resource);
     }
 
     public static void LoadSprite(nint renderer, string name)
     {
-        var resource = resources.Find(r => r.ResourceName == name);
-
-        if (resource == null)
+        if (!resources.ContainsKey(name))
             return;
 
-        if (resource.Resource == null)
-            resource.Resource = new(renderer, resource.ResourceFileName);
+        if (resources[name].Resource == null)
+            resources[name].Resource = new(renderer, resources[name].ResourceFileName);
     }
 
     public static void LoadSprite(nint renderer, string[] name)
@@ -63,12 +58,10 @@ internal static class SpriteManager
 
     public static Sprite? GetResource(string name)
     {
-        var resource = resources.Find(r => r.ResourceName == name);
-
-        if (resource == null)
+        if (!resources.ContainsKey(name))
             return null;
 
-        return resource.Resource;
+        return resources[name].Resource;
     }
 
     public static Sprite?[] GetResource(string[] name)
@@ -83,13 +76,11 @@ internal static class SpriteManager
 
     public static void ReleaseResource(string name)
     {
-        var resource = resources.Find(r => r.ResourceName == name);
-
-        if (resource == null || resource.Resource == null)
+        if (!resources.ContainsKey(name) || resources[name].Resource == null)
             return;
 
-        resource.Resource.Dispose();
-        resource.Resource = null;
+        resources[name].Resource?.Dispose();
+        resources[name].Resource = null;
     }
 
     public static void ReleaseResource(string[] name)
@@ -100,18 +91,16 @@ internal static class SpriteManager
 
     public static void DeleteResource(string name)
     {
-        var resource = resources.Find(r => r.ResourceName == name);
-
-        if (resource == null)
+        if(resources.ContainsKey(name))
             return;
 
-        if (resource.Resource != null)
+        if (resources[name].Resource != null)
         {
-            resource.Resource.Dispose();
-            resource.Resource = null;
+            resources[name].Resource?.Dispose();
+            resources[name].Resource = null;
         }
 
-        resources.Remove(resource);
+        resources.Remove(name);
     }
 
     public static void DeleteResource(string[] name)
@@ -124,10 +113,10 @@ internal static class SpriteManager
     {
         foreach (var resource in resources)
         {
-            if (resource.Resource != null)
+            if (resource.Value.Resource != null)
             {
-                resource.Resource.Dispose();
-                resource.Resource = null;
+                resource.Value.Resource.Dispose();
+                resource.Value.Resource = null;
             }
         }
 
