@@ -3,6 +3,7 @@ using SpaceInvaders.Input;
 using SpaceInvaders.Logger;
 using SpaceInvaders.Scenes;
 using SpaceInvaders.Database;
+using SpaceInvaders.Resource;
 using SpaceInvaders.Scenes.Game;
 using SpaceInvaders.Scenes.Rank;
 using SpaceInvaders.Scenes.Title;
@@ -74,7 +75,7 @@ internal static class App
         SceneManager.AddScene("License", new LicenseScene());
         SceneManager.AddScene("Round", new RoundScene());
         SceneManager.AddScene("Rank", new RankScene());
-        SceneManager.ChangeScene("Rank");
+        SceneManager.ChangeScene("Title");
     }
 
     private static void Event(SDL.SDL_Event e)
@@ -118,6 +119,7 @@ internal static class App
 
         ScoreDataManager.Finalizing();
         SceneManager.RemoveAllScene();
+        SpriteManager.DeleteAllResource();
         Share.Finish();
     }
 }
