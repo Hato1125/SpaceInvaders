@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using SpaceInvaders.Graphics;
 
 namespace SpaceInvaders.Resource;
