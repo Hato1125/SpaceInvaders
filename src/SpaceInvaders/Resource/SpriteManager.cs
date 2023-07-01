@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using SpaceInvaders.Graphics;
 
 namespace SpaceInvaders.Resource;
@@ -19,6 +20,9 @@ internal record SpriteResource
 internal static class SpriteManager
 {
     private static readonly List<SpriteResource> resources = new();
+
+    public static IReadOnlyList<SpriteResource> RegistSpriteList
+        => resources;
 
     public static void RegistSprite(string name, string fileName)
     {
