@@ -26,34 +26,14 @@ internal class PlayerAttack
         if (beamSprite == null)
             return;
 
-        var controllers = GameController.GetRegisteredGameController();
-
-        if (IsAttackPush(controllers) && GameScene.BeamScreen.AnyPlayerBeam())
+        if ((Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_SPACE)
+            || GameController.IsPushed(0, SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_A))
+            && GameScene.BeamScreen.AnyPlayerBeam())
         {
             var beginX = player.X + (player.Collision.Width - beamSprite.ActualWidth) / 2;
             var beginY = player.Y;
 
             new PlayerBeam(beginX, beginY, playerInfo.BeamSpeed, beamSprite);
         }
-    }
-
-    private bool IsAttackPush(IReadOnlyList<nint>? controllers)
-    {
-        if (Keyboard.IsPushed(SDL.SDL_Scancode.SDL_SCANCODE_SPACE))
-        {
-            return true;
-        }
-        else
-        {
-            if (controllers == null)
-                return false;
-
-            if (GameController.IsPushed(
-                controllers[0],
-                SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_A))
-                return true;
-        }
-
-        return false;
     }
 }

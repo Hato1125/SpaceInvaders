@@ -1,5 +1,5 @@
 using System.Runtime.InteropServices;
-using SDL2;
+using System.Runtime.CompilerServices;
 
 namespace SpaceInvaders.Input;
 
@@ -30,4 +30,40 @@ internal static class Keyboard
 
     public static bool IsSeparate(SDL.SDL_Scancode keyCode)
         => keyValue[(int)keyCode] == -1;
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsPushing(ReadOnlySpan<SDL.SDL_Scancode> keyCodes)
+    {
+        foreach(var key in keyCodes)
+        {
+            if (IsPushing(key))
+                return true;
+        }
+
+        return false;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsPushed(ReadOnlySpan<SDL.SDL_Scancode> keyCodes)
+    {
+        foreach (var key in keyCodes)
+        {
+            if (IsPushed(key))
+                return true;
+        }
+
+        return false;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsSeparate(ReadOnlySpan<SDL.SDL_Scancode> keyCodes)
+    {
+        foreach (var key in keyCodes)
+        {
+            if (IsSeparate(key))
+                return true;
+        }
+
+        return false;
+    }
 }
