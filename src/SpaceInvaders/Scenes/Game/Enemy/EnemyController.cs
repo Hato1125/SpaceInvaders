@@ -52,7 +52,7 @@ internal class EnemyController : Scene
                     sprite.VerticalScale = enemyInfo.EnemyScale;
                 }
 
-                enemyCell[i, j] = new(sprites, point) { IsDead = !(i == 0 && j == 0), };
+                enemyCell[i, j] = new(sprites, point);
             }
         }
 

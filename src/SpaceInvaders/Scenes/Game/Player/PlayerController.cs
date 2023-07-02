@@ -16,7 +16,7 @@ internal class PlayerController : Scene
     {
         playerInfo = new()
         {
-            MoveSpeed = 200,
+            MoveSpeed = 120,
             BeamSpeed = 600.0f,
             PlayerScale = 5.0f,
             PlayerBeamScale = 2.0f,
