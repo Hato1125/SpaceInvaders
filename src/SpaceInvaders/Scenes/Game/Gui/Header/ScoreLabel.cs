@@ -1,4 +1,5 @@
 ﻿using SpaceInvaders.Graphics;
+using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Game.Gui;
 
@@ -8,16 +9,17 @@ internal class ScoreLabel
 
     public void Init()
     {
-        if (Share.FontSprite != null)
+        var fontSprite = SpriteManager.GetResource("fontSprite");
+        if (fontSprite == null)
+            return;
+
+        scoreLabel = new(fontSprite)
         {
-            scoreLabel = new(Share.FontSprite)
-            {
-                Scale = 2.25f,
-                TextSpace = -5,
-                LineSpace = 15,
-                Text = "score",
-            };
-        }
+            Scale = 2.25f,
+            TextSpace = -5,
+            LineSpace = 15,
+            Text = "score",
+        };
     }
 
     public void Update()

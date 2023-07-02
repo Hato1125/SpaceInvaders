@@ -1,6 +1,7 @@
 using SpaceInvaders.App;
 using SpaceInvaders.Frame;
 using SpaceInvaders.Graphics;
+using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Round;
 
@@ -8,7 +9,6 @@ internal class RoundScene : Scene
 {
     private const float DELAY_MS = 4;
 
-    private Sprite? fontSprite;
     private Font16x16? roundLabel;
     private double delayCounter;
 
@@ -18,7 +18,8 @@ internal class RoundScene : Scene
     {
         delayCounter = 0;
 
-        fontSprite = new(App.App.Window.RendererPtr, $"{AppInfo.TextureDire}Font16x16.png");
+        var fontSprite = SpriteManager.GetResource("FontSprite");
+
         roundLabel = new(fontSprite)
         {
             Text = "round",
@@ -46,10 +47,5 @@ internal class RoundScene : Scene
             (AppInfo.Width - roundLabel.Width) / 2,
             (AppInfo.Height - roundLabel.Height) / 2
         );
-    }
-
-    public override void Finish()
-    {
-        fontSprite?.Dispose();
     }
 }

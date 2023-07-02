@@ -18,7 +18,9 @@ internal class Enemy
         get => animeIndex;
         set
         {
-            if (value > AnimeSprites.Length - 1)
+            if(AnimeSprites == null)
+                animeIndex = 0;
+            else if (value > AnimeSprites.Length - 1)
                 animeIndex = 0;
             else if (value < 0)
                 animeIndex = 0;
@@ -37,7 +39,7 @@ internal class Enemy
 
     public void Update()
     {
-        if (IsDead)
+        if (IsDead || AnimeSprites == null)
             return;
 
         Collision.X = X;
@@ -48,7 +50,7 @@ internal class Enemy
 
     public void Render()
     {
-        if (IsDead)
+        if (IsDead || AnimeSprites == null)
             return;
 
         AnimeSprites[AnimeIndex].Render(X, Y);

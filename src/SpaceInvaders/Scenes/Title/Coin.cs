@@ -1,6 +1,4 @@
-using SpaceInvaders.App;
 using SpaceInvaders.Frame;
-using SpaceInvaders.Graphics;
 
 namespace SpaceInvaders.Scenes.Title;
 
@@ -8,8 +6,6 @@ internal class Coin : Scene
 {
     private readonly CoinInput input;
     private readonly CoinLabel label;
-
-    private Sprite? fontSprite;
 
     public Coin()
     {
@@ -19,9 +15,7 @@ internal class Coin : Scene
 
     public override void Init()
     {
-        fontSprite = new(App.App.Window.RendererPtr, $"{AppInfo.TextureDire}Font16x16.png");
-
-        label.Init(fontSprite);
+        label.Init();
     }
 
     public override void Update()
@@ -33,10 +27,5 @@ internal class Coin : Scene
     public override void Render()
     {
         label.Render();
-    }
-
-    public override void Finish()
-    {
-        fontSprite?.Dispose();
     }
 }

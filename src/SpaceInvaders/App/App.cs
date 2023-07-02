@@ -69,13 +69,13 @@ internal static class App
 
         ScoreDataManager.Initializing(AppInfo.ScoreDatabaseName);
 
-        Share.Init();
+        TL.LoadSprites();
         SceneManager.AddScene("Game", new GameScene());
         SceneManager.AddScene("Title", new TitleScene());
         SceneManager.AddScene("License", new LicenseScene());
         SceneManager.AddScene("Round", new RoundScene());
         SceneManager.AddScene("Rank", new RankScene());
-        SceneManager.ChangeScene("Title");
+        SceneManager.ChangeScene("License");
     }
 
     private static void Event(SDL.SDL_Event e)
@@ -120,6 +120,5 @@ internal static class App
         ScoreDataManager.Finalizing();
         SceneManager.RemoveAllScene();
         SpriteManager.DeleteAllResource();
-        Share.Finish();
     }
 }

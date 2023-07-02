@@ -5,29 +5,26 @@ namespace SpaceInvaders.Scenes.Game;
 
 internal class Player
 {
-    private Sprite? playerSprite;
+    private Sprite playerSprite;
 
     public readonly CollisionComponent Collision;
     public float X { get; set; }
     public float Y { get; set; }
 
-    public Player()
+    public Player(Sprite player)
     {
+        playerSprite = player;
         Collision = new();
     }
 
-    public void Init(Sprite player)
+    public void Init()
     {
-        playerSprite = player;
-        X = (AppInfo.Width - player.ActualWidth) / 2;
+        X = (AppInfo.Width - playerSprite.ActualWidth) / 2;
         Y = (AppInfo.Height / 100) * 85;
     }
 
     public void Update()
     {
-        if(playerSprite == null)
-            return;
-
         Collision.X = X;
         Collision.Y = Y;
         Collision.Width = playerSprite.ActualWidth;

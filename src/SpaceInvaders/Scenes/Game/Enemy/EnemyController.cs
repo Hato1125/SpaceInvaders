@@ -1,6 +1,5 @@
-using SpaceInvaders.App;
 using SpaceInvaders.Frame;
-using SpaceInvaders.Graphics;
+using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Game;
 
@@ -11,9 +10,6 @@ internal class EnemyController : Scene
 
     private readonly EnemyInfo enemyInfo;
     private readonly Enemy[,] enemyCell;
-    private readonly Sprite[,] enemySprites;
-
-    private Sprite? beamSprite;
 
     public EnemyController()
     {
@@ -36,7 +32,6 @@ internal class EnemyController : Scene
         };
 
         enemyCell = new Enemy[enemyInfo.RowNum, enemyInfo.ColumnNum];
-        enemySprites = new Sprite[enemyInfo.Kinds, enemyInfo.AnimeNum];
 
         move = new(enemyCell, enemyInfo);
         attack = new(enemyCell, enemyInfo);
@@ -44,40 +39,29 @@ internal class EnemyController : Scene
 
     public override void Init()
     {
-        for (int i = 0; i < enemyInfo.Kinds; i++)
-        {
-            for (int j = 0; j < enemyInfo.AnimeNum; j++)
-            {
-                var renderer = App.App.Window.RendererPtr;
-                var fileName = $"{AppInfo.GameTextureDire}Enemy_{i}\\{j}.png";
-
-                enemySprites[i, j] = new(renderer, fileName)
-                {
-                    HorizontalScale = enemyInfo.EnemyScale,
-                    VerticalScale = enemyInfo.EnemyScale,
-                };
-            }
-        }
-
         for (int i = 0; i < enemyInfo.RowNum; i++)
         {
             for (int j = 0; j < enemyInfo.ColumnNum; j++)
             {
-                var sprite = GetEnemySprites(i);
+                var sprites = SpriteManager.GetResource(GetEnemySpriteName(i));
                 var point = GetEnemyPoint(i);
 
-                enemyCell[i, j] = new(sprite, point) { IsDead = !(i == 0 && j == 0), };
+                foreach (var sprite in sprites)
+                {
+                    sprite.HorizontalScale = enemyInfo.EnemyScale;
+                    sprite.VerticalScale = enemyInfo.EnemyScale;
+                }
+
+                enemyCell[i, j] = new(sprites, point) { IsDead = !(i == 0 && j == 0), };
             }
         }
 
-        beamSprite = new(App.App.Window.RendererPtr, $"{AppInfo.GameTextureDire}EnemyBeam.png")
-        {
-            HorizontalScale = enemyInfo.EnemyBeamScale,
-            VerticalScale = enemyInfo.EnemyBeamScale,
-        };
+        var beam = SpriteManager.GetResource("EnemyBeam");
+        beam.HorizontalScale = enemyInfo.EnemyBeamScale;
+        beam.VerticalScale = enemyInfo.EnemyBeamScale;
 
         move.Init();
-        attack.Init(beamSprite);
+        attack.Init(beam);
     }
 
     public override void Update()
@@ -101,29 +85,18 @@ internal class EnemyController : Scene
         }
     }
 
-    public override void Finish()
-    {
-        for (int i = 0; i < enemyInfo.Kinds; i++)
-        {
-            for (int j = 0; j < enemyInfo.AnimeNum; j++)
-                enemySprites[i, j].Dispose();
-        }
-
-        beamSprite?.Dispose();
-    }
-
     public Enemy[,] GetEnemyCell()
         => enemyCell;
 
-    private Sprite[] GetEnemySprites(int index) => index switch
+    private static string[] GetEnemySpriteName(int index) => index switch
     {
-        0 => new Sprite[] { enemySprites[0, 0], enemySprites[0, 1] },
-        1 or 2 => new Sprite[] { enemySprites[1, 0], enemySprites[1, 1] },
-        3 or 4 => new Sprite[] { enemySprites[2, 0], enemySprites[2, 1] },
-        _ => new Sprite[] { enemySprites[0, 0], enemySprites[0, 1] },
+        0 => new string[] { "Enemy0_0", "Enemy0_1" },
+        1 or 2 => new string[] { "Enemy1_0", "Enemy1_1" },
+        3 or 4 => new string[] { "Enemy2_0", "Enemy2_1" },
+        _ => new string[] { "Enemy0_0", "Enemy0_1" },
     };
 
-    private int GetEnemyPoint(int index) => index switch
+    private static int GetEnemyPoint(int index) => index switch
     {
         0 => 10,
         1 or 2 => 20,

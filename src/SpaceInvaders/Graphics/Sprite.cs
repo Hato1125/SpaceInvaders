@@ -54,6 +54,8 @@ internal class Sprite : IDisposable
 
     public Sprite()
     {
+        texturePtr = nint.Zero;
+        rendererPtr = nint.Zero;
         Alpha = 255;
         HorizontalScale = 1.0f;
         VerticalScale = 1.0f;
@@ -82,7 +84,7 @@ internal class Sprite : IDisposable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Render(float x, float y, Rectangle? rectangle = null)
     {
-        if (texturePtr == nint.Zero)
+        if (texturePtr == nint.Zero || rendererPtr == nint.Zero)
             return;
 
         if (rectangle == null)

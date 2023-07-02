@@ -1,5 +1,6 @@
 ﻿using SpaceInvaders.App;
 using SpaceInvaders.Graphics;
+using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.License;
 
@@ -21,10 +22,9 @@ internal class LicenseText
 
     public void Init()
     {
-        if (LicenseScene.FontSprite == null)
-            return;
+        var fontSprite = SpriteManager.GetResource("FontSprite");
 
-        noticeLabel = new(LicenseScene.FontSprite)
+        noticeLabel = new(fontSprite)
         {
             Scale = 2.75f,
             TextSpace = -10,
@@ -32,7 +32,7 @@ internal class LicenseText
             TextColor = Color.Red,
         };
 
-        licenseLabel = new(LicenseScene.FontSprite)
+        licenseLabel = new(fontSprite)
         {
             Scale = 2.0f,
             TextSpace = -10,

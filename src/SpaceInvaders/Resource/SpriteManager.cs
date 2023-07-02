@@ -56,17 +56,17 @@ internal static class SpriteManager
             LoadSprite(renderer, resname);
     }
 
-    public static Sprite? GetResource(string name)
+    public static Sprite GetResource(string name)
     {
         if (!resources.ContainsKey(name))
-            return null;
+            return new();
 
-        return resources[name].Resource;
+        return resources[name].Resource ?? new();
     }
 
-    public static Sprite?[] GetResource(string[] name)
+    public static Sprite[] GetResource(string[] name)
     {
-        var spriteArray = new Sprite?[name.Length];
+        var spriteArray = new Sprite[name.Length];
 
         for (int i = 0; i < name.Length; i++)
             spriteArray[i] = GetResource(name[i]);

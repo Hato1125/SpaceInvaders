@@ -1,6 +1,7 @@
 using SpaceInvaders.App;
 using SpaceInvaders.Frame;
 using SpaceInvaders.Graphics;
+using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Game;
 
@@ -10,9 +11,6 @@ internal class PlayerController : Scene
     private readonly PlayerMove move;
     private readonly PlayerAttack attack;
     private readonly PlayerInfo playerInfo;
-
-    private Sprite? playerSprite;
-    private Sprite? beamSprite;
 
     public PlayerController()
     {
@@ -24,27 +22,22 @@ internal class PlayerController : Scene
             PlayerBeamScale = 2.0f,
         };
 
-        player = new();
+        var playerSprite = SpriteManager.GetResource("Player");
+        playerSprite.HorizontalScale = playerInfo.PlayerScale;
+        playerSprite.VerticalScale = playerInfo.PlayerScale;
+
+        var beamSprite = SpriteManager.GetResource("PlayerBeam");
+        beamSprite.HorizontalScale = playerInfo.PlayerBeamScale;
+        beamSprite.VerticalScale = playerInfo.PlayerBeamScale;
+
+        player = new(playerSprite);
         move = new(player, playerInfo);
-        attack = new(player, playerInfo);
+        attack = new(player, playerInfo, beamSprite);
     }
 
     public override void Init()
     {
-        playerSprite = new(App.App.Window.RendererPtr, $"{AppInfo.GameTextureDire}Player.png")
-        {
-            HorizontalScale = playerInfo.PlayerScale,
-            VerticalScale = playerInfo.PlayerScale,
-        };
-
-        beamSprite = new(App.App.Window.RendererPtr, $"{AppInfo.GameTextureDire}PlayerBeam.png")
-        {
-            HorizontalScale = playerInfo.PlayerBeamScale,
-            VerticalScale = playerInfo.PlayerBeamScale,
-        };
-
-        player.Init(playerSprite);
-        attack.Init(beamSprite);
+        player.Init();
     }
 
     public override void Update()
@@ -57,12 +50,6 @@ internal class PlayerController : Scene
     public override void Render()
     {
         player.Render();
-    }
-
-    public override void Finish()
-    {
-        playerSprite?.Dispose();
-        beamSprite?.Dispose();
     }
 
     public CollisionComponent GetCollision()

@@ -1,5 +1,6 @@
 using SpaceInvaders.App;
 using SpaceInvaders.Graphics;
+using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Title;
 
@@ -19,7 +20,6 @@ internal class CoinLabel
 
     private readonly string buttonText = "Press one of the A B X Y buttons";
 
-    private Sprite? fontSprite;
     private Font16x16? promptFont;
     private Font16x16? buttonFont;
     private Font16x16? coinFont;
@@ -27,10 +27,10 @@ internal class CoinLabel
     private int flashIndex;
     private double flashCounter;
 
-    public void Init(Sprite font)
+    public void Init()
     {
-        fontSprite = font;
-
+        var fontSprite = SpriteManager.GetResource("FontSprite");
+        
         promptFont = new(fontSprite)
         {
             Text = promptTexts[0],

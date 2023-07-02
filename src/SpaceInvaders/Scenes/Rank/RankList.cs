@@ -4,6 +4,7 @@ using SpaceInvaders.Input;
 using SpaceInvaders.Frame;
 using SpaceInvaders.Database;
 using SpaceInvaders.Graphics;
+using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Rank;
 
@@ -21,25 +22,24 @@ internal class RankList : Scene
     {
         panelSprite = new(App.App.Window.RendererPtr, $"{AppInfo.RankTextureDire}Panel.png");
 
-        if (Share.FontSprite != null)
-        {
-            var data = ScoreDataManager.GetAllData();
-            if (data != null)
-            {
-                var dataList = data.OrderByDescending(d => d.Score).ToList();
-                var dataSpan = CollectionsMarshal.AsSpan(dataList);
-                
-                for (int i = 0; i < dataSpan.Length; i++)
-                {
-                    var panel = new RankPanel(dataSpan[i], panelSprite, Share.FontSprite, i + 1)
-                    {
-                        X = (AppInfo.Width - panelSprite.Width) / 2,
-                    };
-                    panelList.Add(panel);
-                }
+        var fontSprite = SpriteManager.GetResource("FontSprite");
 
-                scrollMax = (panelSprite.Height) * panelList.Count - AppInfo.Height;
+        var data = ScoreDataManager.GetAllData();
+        if (data != null)
+        {
+            var dataList = data.OrderByDescending(d => d.Score).ToList();
+            var dataSpan = CollectionsMarshal.AsSpan(dataList);
+
+            for (int i = 0; i < dataSpan.Length; i++)
+            {
+                var panel = new RankPanel(dataSpan[i], panelSprite, fontSprite, i + 1)
+                {
+                    X = (AppInfo.Width - panelSprite.Width) / 2,
+                };
+                panelList.Add(panel);
             }
+
+            scrollMax = (panelSprite.Height) * panelList.Count - AppInfo.Height;
         }
     }
 
