@@ -4,8 +4,13 @@ using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Title;
 
-internal class Title : Scene
+internal class Title : SceneElement
 {
+    public Title(Scene owner)
+        : base(owner)
+    {
+    }
+
     public override void Render()
     {
         var titleSprite = SpriteManager.GetResource("TitleSprite");

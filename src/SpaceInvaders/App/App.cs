@@ -7,6 +7,7 @@ using SpaceInvaders.Scenes.Game;
 using SpaceInvaders.Scenes.Rank;
 using SpaceInvaders.Scenes.Title;
 using SpaceInvaders.Scenes.Round;
+using SpaceInvaders.Scenes.Result;
 using SpaceInvaders.Scenes.License;
 
 namespace SpaceInvaders.App;
@@ -74,7 +75,8 @@ internal static class App
         SceneManager.AddScene("License", new LicenseScene());
         SceneManager.AddScene("Round", new RoundScene());
         SceneManager.AddScene("Rank", new RankScene());
-        SceneManager.ChangeScene("License");
+        SceneManager.AddScene("Result", new ResultScene());
+        SceneManager.ChangeScene("Title");
     }
 
     private static void Event(SDL.SDL_Event e)

@@ -7,6 +7,6 @@ internal class TitleScene : Scene
     public TitleScene()
     {
         Children.Add(new Coin());
-        Children.Add(new Title());
+        Elements.Add(new Title(this));
     }
 }

@@ -1,11 +1,17 @@
 using SpaceInvaders.App;
+using SpaceInvaders.Frame;
 using SpaceInvaders.Graphics;
 using SpaceInvaders.Resource;
 
 namespace SpaceInvaders.Scenes.Title;
 
-internal class CoinLabel
+internal class CoinLabel : SceneElement
 {
+    public CoinLabel(Scene owner)
+        : base(owner)
+    {
+    }
+
     private readonly Color[] flashColors = new Color[]
     {
         Color.White,
@@ -27,7 +33,7 @@ internal class CoinLabel
     private int flashIndex;
     private double flashCounter;
 
-    public void Init()
+    public override void Init()
     {
         var fontSprite = SpriteManager.GetResource("FontSprite");
         
@@ -56,7 +62,7 @@ internal class CoinLabel
         };
     }
 
-    public void Update()
+    public override void Update()
     {
         flashCounter += App.App.Window.DeltaTime;
         if (flashCounter > 1.5)
@@ -81,7 +87,7 @@ internal class CoinLabel
             coinFont.Text = $"Coin {CoinManager.Coin}";
     }
 
-    public void Render()
+    public override void Render()
     {
         promptFont?.Render((AppInfo.Width - promptFont.Width) / 2, 300);
 

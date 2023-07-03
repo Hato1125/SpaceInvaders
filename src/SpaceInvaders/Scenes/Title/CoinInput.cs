@@ -3,8 +3,13 @@ using SpaceInvaders.Frame;
 
 namespace SpaceInvaders.Scenes.Title;
 
-internal class CoinInput
+internal class CoinInput : SceneElement
 {
+    public CoinInput(Scene owner)
+        : base(owner)
+    {
+    }
+
     private readonly SDL.SDL_GameControllerButton[] buttons = new SDL.SDL_GameControllerButton[]
     {
         SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_A,
@@ -12,10 +17,10 @@ internal class CoinInput
     };
 
     private readonly SDL.SDL_GameControllerButton[] nextSceneButtons = new SDL.SDL_GameControllerButton[]
-{
+    {
         SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_X,
         SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_Y,
-};
+    };
 
     private readonly SDL.SDL_Scancode[] keyCodes = new SDL.SDL_Scancode[]
     {
@@ -23,7 +28,7 @@ internal class CoinInput
         SDL.SDL_Scancode.SDL_SCANCODE_PAGEUP,
     };
 
-    public void Update()
+    public override void Update()
     {
         if (Keyboard.IsPushed(keyCodes)
             || GameController.IsPushed(0, buttons))
