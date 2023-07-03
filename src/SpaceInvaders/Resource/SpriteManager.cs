@@ -91,7 +91,7 @@ internal static class SpriteManager
 
     public static void DeleteResource(string name)
     {
-        if(resources.ContainsKey(name))
+        if (resources.ContainsKey(name))
             return;
 
         if (resources[name].Resource != null)

@@ -3,7 +3,7 @@ using SpaceInvaders.Resource;
 
 namespace SpaceInvaders;
 
-internal static class TL
+internal static class SL
 {
     public static void LoadSprites()
     {

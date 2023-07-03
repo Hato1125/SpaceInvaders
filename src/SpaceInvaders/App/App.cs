@@ -1,7 +1,6 @@
 ﻿using SpaceInvaders.Frame;
 using SpaceInvaders.Input;
 using SpaceInvaders.Logger;
-using SpaceInvaders.Scenes;
 using SpaceInvaders.Database;
 using SpaceInvaders.Resource;
 using SpaceInvaders.Scenes.Game;
@@ -69,7 +68,7 @@ internal static class App
 
         ScoreDataManager.Initializing(AppInfo.ScoreDatabaseName);
 
-        TL.LoadSprites();
+        SL.LoadSprites();
         SceneManager.AddScene("Game", new GameScene());
         SceneManager.AddScene("Title", new TitleScene());
         SceneManager.AddScene("License", new LicenseScene());

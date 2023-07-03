@@ -9,9 +9,7 @@ internal class ScoreLabel
 
     public void Init()
     {
-        var fontSprite = SpriteManager.GetResource("fontSprite");
-        if (fontSprite == null)
-            return;
+        var fontSprite = SpriteManager.GetResource("FontSprite");
 
         scoreLabel = new(fontSprite)
         {
