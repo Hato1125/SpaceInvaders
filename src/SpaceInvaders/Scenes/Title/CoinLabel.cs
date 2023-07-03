@@ -7,11 +7,6 @@ namespace SpaceInvaders.Scenes.Title;
 
 internal class CoinLabel : SceneElement
 {
-    public CoinLabel(Scene owner)
-        : base(owner)
-    {
-    }
-
     private readonly Color[] flashColors = new Color[]
     {
         Color.White,

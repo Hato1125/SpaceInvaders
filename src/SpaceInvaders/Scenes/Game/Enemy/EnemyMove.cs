@@ -1,8 +1,9 @@
 using SpaceInvaders.App;
+using SpaceInvaders.Frame;
 
 namespace SpaceInvaders.Scenes.Game;
 
-internal class EnemyMove
+internal class EnemyMove : SceneElement
 {
     private readonly EnemyInfo enemyInfo;
     private readonly Enemy[,] enemyCell;
@@ -27,7 +28,7 @@ internal class EnemyMove
         beginY = (AppInfo.Height / 100) * 20;
     }
 
-    public void Init()
+    public override void Init()
     {
         interval = enemyInfo.BeginMoveInterbal;
         moveCount = enemyInfo.EnemyMoveNum / 2;
@@ -42,7 +43,7 @@ internal class EnemyMove
         }
     }
 
-    public void Update()
+    public override void Update()
     {
         intervalCounter += App.App.Window.DeltaTime;
         if (intervalCounter > interval)

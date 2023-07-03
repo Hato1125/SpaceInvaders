@@ -5,11 +5,6 @@ namespace SpaceInvaders.Scenes.Title;
 
 internal class CoinInput : SceneElement
 {
-    public CoinInput(Scene owner)
-        : base(owner)
-    {
-    }
-
     private readonly SDL.SDL_GameControllerButton[] buttons = new SDL.SDL_GameControllerButton[]
     {
         SDL.SDL_GameControllerButton.SDL_CONTROLLER_BUTTON_A,

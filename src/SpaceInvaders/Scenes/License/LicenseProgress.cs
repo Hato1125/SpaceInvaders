@@ -1,8 +1,9 @@
 ﻿using SpaceInvaders.App;
+using SpaceInvaders.Frame;
 
 namespace SpaceInvaders.Scenes.License;
 
-internal class LicenseProgress
+internal class LicenseProgress : SceneElement
 {
     private const int PROGRESS_WIDTH = 500;
 
@@ -11,14 +12,14 @@ internal class LicenseProgress
 
     public bool IsStartProgress { get; set; }
 
-    public void Init()
+    public override void Init()
     {
         IsStartProgress = false;
         progressRect.w = 0;
         progressCounter = 0;
     }
 
-    public void Update()
+    public override void Update()
     {
         if (!IsStartProgress)
             return;
@@ -28,7 +29,7 @@ internal class LicenseProgress
             progressCounter = PROGRESS_WIDTH;
     }
 
-    public void Render()
+    public override void Render()
     {
         progressRect.h = 30;
         progressRect.y = 625;

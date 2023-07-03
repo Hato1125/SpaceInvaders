@@ -6,7 +6,7 @@ internal class Coin : Scene
 {
     public Coin()
     {
-        Elements.Add(new CoinInput(this));
-        Elements.Add(new CoinLabel(this));
+        Elements.Add(new CoinInput());
+        Elements.Add(new CoinLabel());
     }
 }

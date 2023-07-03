@@ -5,9 +5,6 @@ namespace SpaceInvaders.Scenes.Game;
 
 internal class EnemyController : Scene
 {
-    private readonly EnemyMove move;
-    private readonly EnemyAttack attack;
-
     private readonly EnemyInfo enemyInfo;
     private readonly Enemy[,] enemyCell;
 
@@ -33,8 +30,11 @@ internal class EnemyController : Scene
 
         enemyCell = new Enemy[enemyInfo.RowNum, enemyInfo.ColumnNum];
 
-        move = new(enemyCell, enemyInfo);
-        attack = new(enemyCell, enemyInfo);
+        var move = new EnemyMove(enemyCell, enemyInfo);
+        var attack = new EnemyAttack(enemyCell, enemyInfo, SpriteManager.GetResource("EnemyBeam"));
+
+        Elements.Add(move);
+        Elements.Add(attack);
     }
 
     public override void Init()
@@ -60,14 +60,12 @@ internal class EnemyController : Scene
         beam.HorizontalScale = enemyInfo.EnemyBeamScale;
         beam.VerticalScale = enemyInfo.EnemyBeamScale;
 
-        move.Init();
-        attack.Init(beam);
+        base.Init();
     }
 
     public override void Update()
     {
-        move.Update();
-        attack.Update();
+        base.Update();
 
         for (int i = 0; i < enemyInfo.RowNum; i++)
         {

@@ -1,29 +1,30 @@
+using SpaceInvaders.Frame;
 using SpaceInvaders.Graphics;
 
 namespace SpaceInvaders.Scenes.Game;
 
-internal class EnemyAttack
+internal class EnemyAttack : SceneElement
 {
     private readonly EnemyInfo enemyInfo;
     private readonly Enemy[,] enemyCell;
     private readonly Enemy?[] attackEnemys;
 
-    private Sprite? beamSprite;
+    private Sprite beamSprite;
 
     private int attackEnemyNum;
     private double attackInterval;
     private double attackIntervalCounter;
 
-    public EnemyAttack(Enemy[,] enemys, EnemyInfo info)
+    public EnemyAttack(Enemy[,] enemys, EnemyInfo info, Sprite beam)
     {
+        beamSprite = beam;
         enemyCell = enemys;
         enemyInfo = info;
         attackEnemys = new Enemy?[info.ColumnNum];
     }
 
-    public void Init(Sprite beam)
+    public override void Init()
     {
-        beamSprite = beam;
         attackIntervalCounter = 0;
         attackInterval = App.App.Random.Next(
             enemyInfo.AttackIntervalMin,
@@ -31,7 +32,7 @@ internal class EnemyAttack
         );
     }
 
-    public void Update()
+    public override void Update()
     {
         SearchAttackableEnemys();
         Attack();
@@ -43,7 +44,7 @@ internal class EnemyAttack
             return;
 
         attackIntervalCounter += App.App.Window.DeltaTime;
-        if (attackIntervalCounter > attackInterval && beamSprite != null)
+        if (attackIntervalCounter > attackInterval)
         {
             attackIntervalCounter = 0;
             attackInterval = App.App.Random.Next(

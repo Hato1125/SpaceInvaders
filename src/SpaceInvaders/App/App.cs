@@ -76,7 +76,7 @@ internal static class App
         SceneManager.AddScene("Round", new RoundScene());
         SceneManager.AddScene("Rank", new RankScene());
         SceneManager.AddScene("Result", new ResultScene());
-        SceneManager.ChangeScene("Title");
+        SceneManager.ChangeScene("License");
     }
 
     private static void Event(SDL.SDL_Event e)

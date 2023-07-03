@@ -3,7 +3,7 @@ using SpaceInvaders.Frame;
 
 namespace SpaceInvaders.Scenes.License;
 
-internal class ScreenFade : Scene
+internal class ScreenFade : SceneElement
 {
     private const float FADE_SPEED = 20;
     private const float DELAY_MS = 2.0f;
@@ -36,7 +36,7 @@ internal class ScreenFade : Scene
         fadeInCounter += FADE_SPEED * App.App.Window.DeltaTime;
         if(fadeInCounter > 90)
         {
-            License.IsStartProgress = true;
+            LicenseScene.IsStartProgress = true;
             fadeInCounter = 90;
             fadeDelayCounter += App.App.Window.DeltaTime;
             if (fadeDelayCounter > FADE_DELAY_MS)

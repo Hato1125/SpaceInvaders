@@ -2,11 +2,6 @@ namespace SpaceInvaders.Frame;
 
 internal class SceneElement
 {
-    public readonly Scene Owner;
-
-    public SceneElement(Scene owner)
-        => Owner = owner;
-
     public virtual void Init()
     {
     }
